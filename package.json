@@ -1,0 +1,16 @@
+{
+  "name": "mcilroy-lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ramda": "^0.25.0",
+    "sanctuary": "^0.14.1"
+  }
+}
