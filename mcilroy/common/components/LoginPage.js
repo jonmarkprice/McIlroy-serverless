@@ -6,12 +6,12 @@ class LoginForm extends React.Component {
   render() {
     return (
       <div id="login-component">
-        <form id="login" action="/api/user/login" method="POST">
+        <form id="login-form">
           <legend>Log In</legend>
 
-          <label htmlFor="username" id="username-label">User name</label>
-          <input name="username"
-                 id="username"
+          <label htmlFor="username" id="username-label">Email</label>
+          <input name="email"
+                 id="email"
                  type="text"/>
           <label htmlFor="password" id="password-label">Password</label>
           <input id="password" type="password" name="password" />

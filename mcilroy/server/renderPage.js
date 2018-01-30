@@ -46,8 +46,15 @@ function renderPage(element, opts) {
       ${links.join('\n')}
     </head>
     <body>
-      <div id="app">${html}</div>
-      ${preloaded} ${scripts.join('\n')}
+      <div id="app">
+        ${html}
+      </div>
+
+      <!-- Preloaded state -->
+      ${preloaded}
+
+      <!-- Webpack bundles -->
+      ${scripts.join('\n')}
     </body>
   </html>`;
 }

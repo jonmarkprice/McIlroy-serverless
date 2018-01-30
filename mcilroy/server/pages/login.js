@@ -14,6 +14,7 @@ module.exports = () =>
   renderPage(React.createElement(LoginPage, state, null), {
     title: 'Log In - McIlroy',
     stylesheets,
-    state
+    state,
+    bundles: ['cognito']
   });
 
