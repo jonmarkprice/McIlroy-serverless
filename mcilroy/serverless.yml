@@ -11,3 +11,9 @@ functions:
       - http:
           path: login
           method: get
+  profile:
+    handler: handler.profile
+    events:
+      - http:
+          path: profile
+          method: get

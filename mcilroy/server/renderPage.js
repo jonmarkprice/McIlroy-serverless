@@ -5,6 +5,7 @@ const PropTypes = require('prop-types');
 // const dbg = require('debug')('routes:helpers');
 
 const stringify = s => JSON.stringify(s).replace(/</g, '\\u003c');
+
 const optTypes = {
   title: PropTypes.string,
   bundles: PropTypes.array,
@@ -42,6 +43,7 @@ function renderPage(element, opts) {
   return `<!DOCTYPE html>
   <html>
     <head>
+      <meta charset="utf-8" />
       <title>${title}</title>
       ${links.join('\n')}
     </head>

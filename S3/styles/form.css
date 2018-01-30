@@ -7,12 +7,6 @@ form {
   border: thin solid darkgrey;
 }
 
-/* TODO: try to generalize:
-#password, #username {
-  width: 5cm;
-}
-*/
-
 form > input {
   display: block;
   margin-bottom: 2.5mm;
@@ -22,4 +16,9 @@ form > input {
 form > legend {
   font-size: 12pt;
   margin-bottom: 3mm;
+}
+
+form > input[type=text],
+form > input[type=password] {
+  width: 5cm;
 }

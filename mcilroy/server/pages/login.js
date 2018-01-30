@@ -1,7 +1,18 @@
 'use strict';
 
 const React = require('react');
+const { Provider } = require('react-redux');
+
+// XXX: not sure if I should use from common, or lib...
+// I don't think it will matter at the moment.
+// Really, I should consider moving some of this so I can use JSX
+const configureStore = require('../../common/configureStore');
 const renderPage = require('../renderPage');
+
+// TODO: make
+const reducer = require('../../common/reducers/login');
+
+// React components
 const LoginPage = require('../../lib/components/LoginPage');
 
 // McIlroy EB used req.flash and I passed {flash: ...} into 
@@ -9,12 +20,16 @@ const LoginPage = require('../../lib/components/LoginPage');
 
 // const component = page;
 const stylesheets = ['common', 'banner', 'form', 'login', 'flash'];
-const state = {flash: null};
+// const state = {flash: null};
+const store = configureStore(reducer); //, {flash: null});
+const element = React.createElement(LoginPage, null, null);
+const provider = React.createElement(Provider, {store}, element);
+
 module.exports = () => 
-  renderPage(React.createElement(LoginPage, state, null), {
+  renderPage(provider, {
     title: 'Log In - McIlroy',
     stylesheets,
-    state,
+    state: store,
     bundles: ['cognito']
   });
 

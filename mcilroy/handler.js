@@ -5,13 +5,22 @@
 
 const loginPage = require('./server/pages/login');
 
+function sendOk(body, callback) {
+  callback(null, {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "text/html"
+    },
+    body: body
+  });
+}
+
 module.exports.login = (event, context, callback) => {
-    const response = {
-        statusCode: 200,
-        body: loginPage(),
-        headers: {
-          "Content-Type": "text/html"
-        }
-    };
-    callback(null, response);
+  sendOk(loginPage(), callback);
 };
+
+module.exports.profile = (event, context, callback) => {
+  sendOk('<p>Profile under construction</p>', callback);
+};
+
+ 

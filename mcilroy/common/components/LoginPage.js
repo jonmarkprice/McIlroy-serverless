@@ -2,6 +2,16 @@ const React   = require('react');
 const Banner  = require('./Banner');
 const Flash   = require('./Flash');
 
+const { connect } = require('react-redux');
+
+// TODO:
+// [ ] Hook up with Redux
+//  - [ ] use async actions for login
+//  - [ ] This may require a change to renderPage...
+//      Or maybe I can still do it by wrapping the element
+//      in a <Provider />...
+//    However, it probably makes sense to abstract some of this...
+//    I will always need Provider and createStore
 class LoginForm extends React.Component {
   render() {
     return (
@@ -38,4 +48,6 @@ class LoginPage extends React.Component {
   }
 }
 
-module.exports = LoginPage;
+const mapStateToProps = state => ({flash: state.flash});
+
+module.exports = connect(mapStateToProps)(LoginPage);
