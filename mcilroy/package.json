@@ -5,7 +5,8 @@
   "main": "handler.js",
   "scripts": {
     "prebuild": "npm run clean -s",
-    "build": "babel -d lib common -s",
+    "build:server": "babel -d lib common -s",
+    "build:client": "webpack",
     "prestart": "npm run build",
     "start": "node handler.js",
     "clean": "rimraf lib/*"
