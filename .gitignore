@@ -1,2 +1,7 @@
 **/.DS_Store
 .vscode
+
+# S3 extras
+S3/app
+S3/users
+S3/index.css

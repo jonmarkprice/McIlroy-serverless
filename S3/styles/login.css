@@ -1,0 +1,15 @@
+#password, #username {
+  width: 5cm;
+}
+
+#construction-notice {
+  background-color: lightyellow;
+  border: dotted medium gold;
+  margin: 5mm;
+  padding-left: 3mm;
+}
+
+#submit {
+  /* Add spacing between login button and "create account" link. */
+  margin-right: 0.5em;
+}
