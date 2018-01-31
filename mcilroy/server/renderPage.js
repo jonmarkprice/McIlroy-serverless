@@ -45,18 +45,12 @@ function renderPage(element, opts) {
     <head>
       <meta charset="utf-8" />
       <title>${title}</title>
-      ${links.join('\n')}
+      ${links.join('')}
     </head>
     <body>
-      <div id="app">
-        ${html}
-      </div>
-
-      <!-- Preloaded state -->
+      <div id="app">${html}</div>
       ${preloaded}
-
-      <!-- Webpack bundles -->
-      ${scripts.join('\n')}
+      ${scripts.join('')}
     </body>
   </html>`;
 }

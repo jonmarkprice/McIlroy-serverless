@@ -7,6 +7,15 @@ const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 // TODO
 const { Config } = require('aws-sdk');
 
+
+////////////////////////////////
+// GOAL: Break this file up into a less monolithic
+// This section should look similar to mcilroy:src/client/index.js
+
+require('../../lib/login-hydrated');
+
+///////////////////////////////
+
 // TODO
 // const AWSCognito = require('./vendor/aws-cognito-sdk.min.js');
 // const AWSCognitoIdentity = require('./vendor/amazon-cognito-identity.min.js');
@@ -114,7 +123,7 @@ console.log('Loaded cognito authentication script');
     signIn(email, pw,
       function() {
         console.log('Sign in successful.');
-        window.location.href = 'profile.html';
+        window.location.href = '/profile';
       },
       function(err) {
         alert(err);

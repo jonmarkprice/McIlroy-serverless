@@ -20,16 +20,17 @@ const LoginPage = require('../../lib/components/LoginPage');
 
 // const component = page;
 const stylesheets = ['common', 'banner', 'form', 'login', 'flash'];
-// const state = {flash: null};
-const store = configureStore(reducer); //, {flash: null});
-const element = React.createElement(LoginPage, null, null);
-const provider = React.createElement(Provider, {store}, element);
+
+const store = configureStore(reducer, {flash: null});
+const provider = React.createElement(Provider, {store},
+  React.createElement(LoginPage, null, null)
+);
 
 module.exports = () => 
   renderPage(provider, {
     title: 'Log In - McIlroy',
     stylesheets,
-    state: store,
+    state: store.getState(),
     bundles: ['cognito']
   });
 

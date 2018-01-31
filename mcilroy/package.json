@@ -5,11 +5,12 @@
   "main": "handler.js",
   "scripts": {
     "prebuild": "npm run clean -s",
-    "build:server": "babel -d lib common -s",
-    "build:client": "webpack",
-    "prestart": "npm run build",
+    "build": "babel -d lib common client -s",
+    "bundle": "webpack",
     "start": "node handler.js",
-    "clean": "rimraf lib/*"
+    "clean": "rimraf lib/* dist/*",
+    "sync:bundles": "aws s3 sync dist s3://mcilroy/scripts",
+    "deploy:s3": "npm run build && npm run bundle && npm run sync:bundles"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "amazon-cognito-identity-js": "^1.31.0",
     "aws-sdk": "^2.188.0",
+    "babel-preset-env": "^1.6.1",
     "rimraf": "^2.6.2"
   }
 }
