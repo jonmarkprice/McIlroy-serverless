@@ -1,10 +1,11 @@
 const { renderToString } = require('react-dom/server');
-const { urls } = require('../aws-config');
 const dbg = console.log;
 const PropTypes = require('prop-types');
 // const dbg = require('debug')('routes:helpers');
 
 const stringify = s => JSON.stringify(s).replace(/</g, '\\u003c');
+
+const { S3_URL } = process.env;
 
 const optTypes = {
   title: PropTypes.string,
@@ -21,14 +22,14 @@ function renderPage(element, opts) {
 
   const stylesheets = opts.stylesheets || [];
   const links = stylesheets.map(name => 
-    `<link rel="stylesheet" href="${urls.s3}/styles/${name}.css" />`
+    `<link rel="stylesheet" href="${S3_URL}/styles/${name}.css" />`
   );
 
   const html = renderToString(element);
 
   const bundles = opts.bundles || [];
   const scripts = bundles.map(name => // need type=text/js?
-    `<script src="${urls.s3}/scripts/${name}.bundle.js"></script>`
+    `<script src="${S3_URL}/scripts/${name}.bundle.js"></script>`
   );
 
   const preloaded = (opts.state !== undefined)

@@ -11,6 +11,8 @@ functions:
       - http:
           path: login
           method: get
+    environment:
+      S3_URL: https://mcilroy.s3-us-west-1.amazonaws.com
   profile:
     handler: handler.profile
     events:
