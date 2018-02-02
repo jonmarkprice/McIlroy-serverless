@@ -8,3 +8,6 @@ lib
 
 # Serverless directories
 .serverless
+
+# Other
+aws.yml

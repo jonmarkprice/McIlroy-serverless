@@ -4,6 +4,16 @@ provider:
   runtime: nodejs6.10
   stage: dev
   region: us-east-2
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
+        - dynamodb:UpdateItem
+        - dynamodb:GetItem
+      Resource: ${file(aws.yml):programs_arn}
+  environment:
+    S3_URL: ${file(aws.yml):s3_url} 
 functions:
   login:
     handler: handler.login
@@ -11,19 +21,38 @@ functions:
       - http:
           path: login
           method: get
-    environment:
-      S3_URL: https://mcilroy.s3-us-west-1.amazonaws.com
   register:
     handler: handler.register
     events:
       - http:
           path: register
           method: get
-    environment:
-      S3_URL: https://mcilroy.s3-us-west-1.amazonaws.com
   profile:
     handler: handler.profile
     events:
       - http:
           path: profile
           method: get
+  auth:
+    handler: handler.auth
+    events:
+      - http:
+          path: auth
+          method: post
+          authorizer:
+            arn: ${file(aws.yml):userpool_arn}
+  api:
+    handler: handler.api
+    events:
+      - http:
+          path: api
+          method: get
+  saveProgram:
+    handler: handler.saveProgram
+    events:
+      - http:
+          path: SaveProgram
+          method: POST
+          authorizer:
+            arn: ${file(aws.yml):userpool_arn}
+
