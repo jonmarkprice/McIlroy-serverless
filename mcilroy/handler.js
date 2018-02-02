@@ -4,6 +4,7 @@
 'use strict';
 
 const loginPage = require('./server/pages/login');
+const registrationPage = require('./server/pages/register');
 
 function sendOk(body, callback) {
   callback(null, {
@@ -17,6 +18,10 @@ function sendOk(body, callback) {
 
 module.exports.login = (event, context, callback) => {
   sendOk(loginPage(), callback);
+};
+
+module.exports.register = (event, context, callback) => {
+  sendOk(registrationPage(), callback);
 };
 
 module.exports.profile = (event, context, callback) => {

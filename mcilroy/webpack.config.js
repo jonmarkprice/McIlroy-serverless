@@ -1,15 +1,40 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-  entry: './client/cognito/cognito-auth.js',
+  entry: {
+    login: './client/pages/login.js',
+    register: './client/pages/register.js',
+  },
   module: {
-    loaders: [{
-      loader: 'json-loader',
-      test: /\.json$/
-    }],
+    loaders: [
+      {
+        // Include common *and* client but not server
+        include: [
+          path.resolve(__dirname, './common'),
+          path.resolve(__dirname, './client'),
+        ],
+        loader: 'babel-loader',
+        test: /\.js$/
+      },
+      {
+        loader: 'json-loader',
+        test: /\.json$/
+      }
+    ]
   },
   output: {
-    filename: 'cognito.bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, './dist')
-  }
+  },
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'login',
+      chunks: ['login'],
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'register',
+      chunks: ['register']
+    }),
+  ]
 };

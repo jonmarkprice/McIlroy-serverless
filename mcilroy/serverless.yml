@@ -13,6 +13,14 @@ functions:
           method: get
     environment:
       S3_URL: https://mcilroy.s3-us-west-1.amazonaws.com
+  register:
+    handler: handler.register
+    events:
+      - http:
+          path: register
+          method: get
+    environment:
+      S3_URL: https://mcilroy.s3-us-west-1.amazonaws.com
   profile:
     handler: handler.profile
     events:

@@ -2,7 +2,7 @@ const React   = require('react');
 const { connect } = require('react-redux');
 
 // TODO: re-enable
-const { handleLogIn } = require('../actions/user-async');
+const { handleLogIn } = require('../actions/async/login');
 
 // TODO:
 // [ ] Hook up with Redux

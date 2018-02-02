@@ -1,5 +1,5 @@
 const ACI = require('amazon-cognito-identity-js');
-const appConfig = require('./client/cognito/config');
+const appConfig = require('../../../client/cognito/config');
 
 const poolData = {
   UserPoolId: appConfig.cognito.userPoolId,
@@ -7,12 +7,12 @@ const poolData = {
 };
 
 // TODO: check that each prop of _config.cognito is defined, or display msg
-const userPool = new ACI.CognitoUserPool(poolData);
+// const userPool = new ACI.CognitoUserPool(poolData);
 
 function createCognitoUser(email) {
   return new ACI.CognitoUser({
     Username: toUsername(email),
-    Pool: userPool
+    Pool: new ACI.CognitoUserPool(poolData)
   });
 }
 
@@ -20,4 +20,8 @@ function toUsername(email) {
   return email.replace('@', '-at-');
 }
 
-module.exports = createCognitoUser;
+module.exports = { 
+  createCognitoUser,
+  toUsername,
+  poolData
+}

@@ -8,9 +8,7 @@ const { Provider } = require('react-redux');
 // Really, I should consider moving some of this so I can use JSX
 const configureStore = require('../../common/configureStore');
 const renderPage = require('../renderPage');
-
-// TODO: make
-const reducer = require('../../common/reducers/login');
+const reducer = require('../../common/reducers/flash');
 
 // React components
 const LoginPage = require('../../lib/components/LoginPage');
@@ -31,6 +29,6 @@ module.exports = () =>
     title: 'Log In - McIlroy',
     stylesheets,
     state: store.getState(),
-    bundles: ['cognito']
+    bundles: ['login']
   });
 

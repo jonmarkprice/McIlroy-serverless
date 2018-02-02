@@ -1,9 +1,9 @@
 const React = require('react');
 const { hydrate } = require('react-dom');
 const { Provider } = require('react-redux');
-const configureStore = require('../common/configureStore');
-const reducer = require('../common/reducers/login');
-const LoginPage = require('../lib/components/LoginPage');
+const configureStore = require('../../common/configureStore');
+const reducer = require('../../common/reducers/flash');
+const LoginPage = require('../../lib/components/LoginPage');
 
 const preloaded = window.__PRELOADED_STATE__;
 
