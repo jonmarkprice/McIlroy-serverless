@@ -51,7 +51,7 @@ functions:
     handler: handler.saveProgram
     events:
       - http:
-          path: SaveProgram
+          path: programs/save
           method: POST
           authorizer:
             arn: ${file(aws.yml):userpool_arn}

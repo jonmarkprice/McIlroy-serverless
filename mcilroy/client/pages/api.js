@@ -13,7 +13,7 @@ const { getAuthToken } = require('../cognito/user');
 // TODO: can try first with this URL to see if everything else works...
 // Request data
 // const url  = 'https://awi4wral7b.execute-api.us-east-2.amazonaws.com/prod';
-const url = 'https://jd83lhj885.execute-api.us-east-2.amazonaws.com/dev'
+// const url = 'https://jd83lhj885.execute-api.us-east-2.amazonaws.com/dev'
 
 const createOpts = (body, token) => ({
   method: 'POST',
@@ -28,7 +28,7 @@ const createOpts = (body, token) => ({
 saveButton.onclick = function(event) {
   console.log('Submitting request.');
   event.preventDefault();
-  const path = "/SaveProgram";
+  const path = "programs/save";
   const user = new ACI.CognitoUserPool(poolData).getCurrentUser();
   const body = {
     UserId: user.username,
@@ -42,7 +42,7 @@ saveButton.onclick = function(event) {
   getAuthToken()
   .then(function(token) {
     console.log('Got token: %s', token);
-    return fetch(url + path, createOpts(body, token));
+    return fetch(path, createOpts(body, token));
   })
   // fetch(url + path, opts(body))
   .then(response => {

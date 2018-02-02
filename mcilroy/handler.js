@@ -1,6 +1,3 @@
-// PORT registration here
-// IDEA: try to *import* a function defined elsewhere, e.g. in dist/
-// from webpack...
 'use strict';
 
 const loginPage = require('./server/pages/login');
@@ -41,13 +38,8 @@ module.exports.api = (event, context, callback) => {
 };
 
 module.exports.saveProgram = (event, context, callback) => {
-  console.log("--- from the handler ---")
-  console.log(event.body);
-  console.log(typeof event.body);
-  
   const parsed = JSON.parse(event.body);
   const { UserId, ProgramName, ProgramJSON } = parsed;
-
   addItem(UserId, ProgramName, ProgramJSON)
   .then(function () {
     callback(null, jsonResponse({

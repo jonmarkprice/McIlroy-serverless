@@ -15,5 +15,3 @@ hydrate(
   document.getElementById('app')    
 );
 
-store.dispatch({type: 'SET_FLASH', message: 'Hello reg. client!'});
-

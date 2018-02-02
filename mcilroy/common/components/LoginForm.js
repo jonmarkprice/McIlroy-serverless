@@ -43,7 +43,7 @@ class LoginForm extends React.Component {
 
           <div>
             <input id="submit" type="submit" value="Log in" />
-            <span>or <a href="/register">Create an account</a></span>
+            <span>or <a href="register">Create an account</a></span>
           </div>
         </form>
       </div>
