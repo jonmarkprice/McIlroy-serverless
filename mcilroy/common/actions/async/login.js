@@ -14,7 +14,7 @@ function handleLogIn(email, password) {
     .then(
       value => {
         console.log('Sign in successful');
-        window.location.href = 'profile';
+        window.location.href = 'app';
       },
       error => {
         dispatch({type: 'SET_FLASH', message: error.message});

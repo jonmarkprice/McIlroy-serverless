@@ -7,7 +7,7 @@ const reducer = require('../../common/reducers/appRoot');
 const Interpretter = require('../../lib/containers/Interpretter'); // or common
 const { pushInput } = require('../../common/actions/input');
 
-const stylesheets = ['common', 'banner', 'index'];
+const stylesheets = ['common', 'banner', 'index', 'flash'];
 const store = setupStore();
 const provider = React.createElement(Provider, {store},
   React.createElement(Interpretter, null, null)

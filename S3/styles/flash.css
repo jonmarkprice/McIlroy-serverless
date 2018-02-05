@@ -5,6 +5,10 @@
   margin-right: 5mm;
   padding: 1mm;
   border-radius: 1mm;
+
+  /* positioning */
+  position: absolute;
+  margin-top: -3mm;
 }
 
 .flash-no-message {

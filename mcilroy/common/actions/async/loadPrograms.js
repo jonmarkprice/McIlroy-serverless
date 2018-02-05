@@ -9,8 +9,10 @@ function fetchUserPrograms(userId) {
   // TODO: I think we can simplify this...
   // const fetchUserProgram = userId => dispatch => {
   return function (dispatch) {
-    console.log("Requesting list of programs");
     const body = { UserId: getUser().username };
+
+    dispatch({type: 'SET_FLASH', message: 'Loading programs...'});
+
     getAuthToken()
     .then(tok => fetch('programs/fetch', createOpts(body, tok)))
     .then(res => res.json())
@@ -19,11 +21,14 @@ function fetchUserPrograms(userId) {
         parsed.list.Items.forEach(item => {
           dispatch(addProgram(item.ProgramName, item.Expansion));
         });
+        dispatch({type: 'CLEAR_FLASH'});
       },
       err => {
         console.error(err);
-        // TODO add flash message
-        //dispatch()
+        dispatch({
+          type: 'SET_FLASH',
+          message: err.message || 'Unknown error'
+        });
       }
     );
   }

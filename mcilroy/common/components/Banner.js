@@ -13,7 +13,7 @@ class Banner extends React.Component {
     );
     const noUser = (
       <div id="user-control">
-        <a href="/login">Log in</a>
+        <a href="login">Log in</a>
       </div>
     );
     const userControl = this.props.username === null ? noUser : User;

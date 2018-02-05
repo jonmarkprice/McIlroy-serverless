@@ -5,7 +5,7 @@ const displayReducer  = require('./display');
 const savedReducer    = require('./saved');
 const editReducer     = require('./edit');
 const userReducer     = require('./user');
-// TDB: requestReducer
+const flashReducer    = require('./flash');
 
 const reducer = combineReducers({
   input     : inputReducer,
@@ -13,7 +13,8 @@ const reducer = combineReducers({
   displayed : displayReducer,
   saved     : savedReducer,
   edit      : editReducer,
-  user      : userReducer
+  user      : userReducer,
+  flash     : flashReducer
 });
 
 module.exports = reducer;

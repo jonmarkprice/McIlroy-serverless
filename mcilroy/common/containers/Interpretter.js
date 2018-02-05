@@ -4,11 +4,13 @@ const Banner = require('../components/Banner');
 const Overlay = require('./Overlay');
 const Program = require('../components/Program');
 const Palette = require('../components/Palette');
+const Flash = require('../components/Flash');
 
 // const { logout } = require('../actions/user');
 
 const mapStateToProps = state => ({
-  username: state.user.name
+  username: state.user.name,
+  flash: state.flash.flash
 });
 
 // This needs to be async and clear the cookie
@@ -21,9 +23,10 @@ const mapDispatchToProps = dispatch => ({
   }
 }); */
 
-const InterpretterComponent = ({username}) => (
+const InterpretterComponent = ({username, flash}) => (
   <div className="interpretter">
     <Banner username={username} />
+    <Flash message={flash} />
     <Program />
     <Palette />
     <Overlay />
