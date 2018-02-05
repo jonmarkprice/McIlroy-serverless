@@ -8,7 +8,10 @@ const createOpts = (body, token) => ({
   body: JSON.stringify(body)
 });
 
-module.exports = {
-  createOpts
-};
+const toUsername = email =>
+  email.replace('@', '-at-');
 
+module.exports = {
+  toUsername
+  , createOpts
+};

@@ -29,20 +29,6 @@ functions:
       - http:
           path: register
           method: get
-  profile:
-    handler: handler.profile
-    events:
-      - http:
-          path: profile
-          method: get
-  auth:
-    handler: handler.auth
-    events:
-      - http:
-          path: auth
-          method: post
-          authorizer:
-            arn: ${file(aws.yml):userpool_arn}
   api:
     handler: handler.api
     events:

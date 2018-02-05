@@ -1,5 +1,6 @@
 const ACI = require('amazon-cognito-identity-js');
-const { createCognitoUser, toUsername} = require('../helpers/cognito');
+const { createCognitoUser } = require('../../../client/helpers/cognito');
+const { toUsername } = require('../../../client/helpers/misc');
 
 // async action
 function handleLogIn(email, password) {

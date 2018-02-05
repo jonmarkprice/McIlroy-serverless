@@ -1,11 +1,8 @@
-// TODO: move getAuthToken -> client/helpers/token
-const { getAuthToken } = require('../../../client/cognito/user');
-const { poolData } = require('../helpers/cognito')
-const { createOpts } = require('../../../client/helpers/token');
+const { getAuthToken
+        , getUser } = require('../../../client/helpers/cognito');
+const { createOpts } = require('../../../client/helpers/misc');
 const { addProgram } = require('../saved');
 // TODO add SET_FLASH to reducer
-
-const ACI = require('amazon-cognito-identity-js');
 
 // async action
 function fetchUserPrograms(userId) {
@@ -13,8 +10,7 @@ function fetchUserPrograms(userId) {
   // const fetchUserProgram = userId => dispatch => {
   return function (dispatch) {
     console.log("Requesting list of programs");
-    const user = new ACI.CognitoUserPool(poolData).getCurrentUser();
-    const body = { UserId: user.username };
+    const body = { UserId: getUser().username };
     getAuthToken()
     .then(tok => fetch('programs/fetch', createOpts(body, tok)))
     .then(res => res.json())

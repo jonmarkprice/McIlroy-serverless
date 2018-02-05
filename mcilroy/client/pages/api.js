@@ -1,3 +1,6 @@
+const { getAuthToken, getUser } = require('../helpers/cognito');
+const { createOpts } = require('../helpers/misc');
+
 // Elements
 const form = document.getElementById('program-form');
 const programElem = document.getElementById('program');
@@ -6,16 +9,11 @@ const saveButton = document.getElementById('save');
 const programsList = document.getElementById('programs-list');
 const programName = document.getElementById('program-name');
 
-const ACI = require('amazon-cognito-identity-js');
-const { poolData } = require('../../common/actions/helpers/cognito');
-const { getAuthToken } = require('../cognito/user');
-const { createOpts } = require('../helpers/token');
-
 saveButton.onclick = function(event) {
   console.log('Submitting request.');
   event.preventDefault();
   const path = "programs/save";
-  const user = new ACI.CognitoUserPool(poolData).getCurrentUser();
+  const user = getUser();
   const body = {
     UserId: user.username,
     ProgramName: programName.value || '',
@@ -44,7 +42,7 @@ saveButton.onclick = function(event) {
 
 window.onload = function() {
   console.log("Requesting list of programs");
-  const user = new ACI.CognitoUserPool(poolData).getCurrentUser();
+  const user = getUser();
   const body = { UserId: user.username };
   getAuthToken()
   .then(token => {
@@ -66,24 +64,4 @@ window.onload = function() {
     console.log(err);
   });
 };
-
-// Old version
-  /*
-  fetch(url + path)
-  .then(response => {
-    console.log("Got response");
-    response.json().then(json => {
-      let item;
-      console.log(JSON.stringify(json));
-      console.log(JSON.stringify(json.Items));
-      
-      json.Items.forEach(function(program) {
-        item = document.createElement('li');
-        item.textContent = JSON.stringify(program.Expansion); 
-        programsList.appendChild(item);
-      });
-    })
-  })
-  .catch(err => {console.log(err)});
-*/
 

@@ -1,7 +1,6 @@
 const ACI = require('amazon-cognito-identity-js');
-// const { Config } = require('aws-sdk'); 
-
-const { poolData, toUsername } = require('../helpers/cognito');
+const { poolData } = require('../../../client/helpers/cognito');
+const { toUsername } = require('../../../client/helpers/misc');
 
 function handleRegistration(email, pw, conf) {
   return function (dispatch) {
@@ -22,7 +21,12 @@ function handleRegistration(email, pw, conf) {
         window.location.href = 'profile';
       },
       function (err) {
-        dispatch({type: 'SET_FLASH', message: err.message});
+        console.error(err);
+        if (err.message) {
+          dispatch({type: 'SET_FLASH', message: err.message});
+        } else {
+          dispatch({type: 'SET_FLASH', message: 'Unknown error.'});
+        }
       }
     );
   }
