@@ -11,6 +11,8 @@ provider:
         - dynamodb:DeleteItem
         - dynamodb:UpdateItem
         - dynamodb:GetItem
+        - dynamodb:Query
+        - dynamodb:Scan
       Resource: ${file(aws.yml):programs_arn}
   environment:
     S3_URL: ${file(aws.yml):s3_url} 
@@ -52,6 +54,14 @@ functions:
     events:
       - http:
           path: programs/save
+          method: POST
+          authorizer:
+            arn: ${file(aws.yml):userpool_arn}
+  fetchPrograms:
+    handler: handler.fetchPrograms
+    events:
+      - http:
+          path: programs/fetch
           method: POST
           authorizer:
             arn: ${file(aws.yml):userpool_arn}

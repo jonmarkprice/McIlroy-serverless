@@ -44,28 +44,45 @@ saveButton.onclick = function(event) {
     console.log('Got token: %s', token);
     return fetch(path, createOpts(body, token));
   })
-  // fetch(url + path, opts(body))
   .then(response => {
-    console.log("Saved function.");
     response.json().then(json => {
-      console.log("Response:");
-      console.log(json);
-      //result.textContent = json.result;
+      console.log("Response: %o", json);
     })
     .catch(err => console.error(err));
   })
   .catch(err => {
-    console.log('Got error...');
-    console.log(err);
+    console.log('Got error..., %o', err);
   });
  
 }
 
-/*
 window.onload = function() {
   console.log("Requesting list of programs");
-  const path = "/ListPrograms";
-  // try with no opts, I think CORS is default.
+  const user = new ACI.CognitoUserPool(poolData).getCurrentUser();
+  const body = { UserId: user.username };
+  getAuthToken()
+  .then(token => {
+    return fetch('programs/fetch', createOpts(body, token));
+  })
+  .then(res => {
+    console.log('Got response...');
+    res.json().then(parsed => {
+      const elem = document.getElementById('program-dump');
+      elem.textContent = JSON.stringify(parsed, null, 3);
+    })
+    .catch(err => {
+      console.log('Error parsing response');
+      console.log(err);
+    });
+  })
+  .catch(err => {
+    console.log('Error fetching programs');
+    console.log(err);
+  });
+};
+
+// Old version
+  /*
   fetch(url + path)
   .then(response => {
     console.log("Got response");
@@ -82,7 +99,5 @@ window.onload = function() {
     })
   })
   .catch(err => {console.log(err)});
-}
 */
-
 

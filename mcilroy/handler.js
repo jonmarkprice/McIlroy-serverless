@@ -5,7 +5,10 @@ const registrationPage = require('./server/pages/register');
 const profilePage = require('./server/pages/profile');
 const apiPage = require('./server/pages/api');
 
-const { addItem, jsonResponse } = require('./server/database/save-program');
+// TODO: move jsonResponse to database/helpers or something
+const addItem = require('./server/database/save-program');
+const getUserPrograms = require('./server/database/fetch-programs');
+const { jsonResponse } = require('./server/database/helpers');
 
 function sendOk(body, callback) {
   callback(null, {
@@ -41,13 +44,26 @@ module.exports.saveProgram = (event, context, callback) => {
   const parsed = JSON.parse(event.body);
   const { UserId, ProgramName, ProgramJSON } = parsed;
   addItem(UserId, ProgramName, ProgramJSON)
-  .then(function () {
+  .then(function() {
     callback(null, jsonResponse({
-      message: "Saved program",
-      item: event.body
+      message: "Saved program"
+      // item: event.body // Not necessary
     })); 
   })  
   .catch(err => {
     callback(err); 
   }); 
+};
+
+module.exports.fetchPrograms = (event, context, callback) => {
+  const { UserId } = JSON.parse(event.body);
+  getUserPrograms(UserId)
+  .then(programs => {
+    callback(null, jsonResponse({
+      list: programs
+    }));
+  })
+  .catch(err => {
+    callback(err);
+  });
 };

@@ -26,8 +26,8 @@ module.exports = () => (`
     <p id="result"></p>
 
     <h2>Programs</h2>
-    <ol id="programs-list">
-    </ol>
+    <!-- <ol id="programs-list"> -->
+    <pre id="program-dump"></pre>
 
     <script src="${S3_URL}/scripts/api.bundle.js"></script>
   </body>
