@@ -8,6 +8,7 @@ const app = require('./server/pages/app');
 // TODO: move jsonResponse to database/helpers or something
 const addItem = require('./server/database/save-program');
 const getUserPrograms = require('./server/database/fetch-programs');
+const deleteProgram = require('./server/database/delete-program');
 const { jsonResponse } = require('./server/database/helpers');
 
 function sendOk(body, callback) {
@@ -36,10 +37,9 @@ module.exports.saveProgram = (event, context, callback) => {
   const parsed = JSON.parse(event.body);
   const { UserId, ProgramName, ProgramJSON } = parsed;
   addItem(UserId, ProgramName, ProgramJSON)
-  .then(function() {
+  .then(() => {
     callback(null, jsonResponse({
       message: "Saved program"
-      // item: event.body // Not necessary
     })); 
   })  
   .catch(err => {
@@ -60,7 +60,19 @@ module.exports.fetchPrograms = (event, context, callback) => {
   });
 };
 
+module.exports.deleteProgram = (event, context, callback) => {
+  const { UserId, ProgramName } = JSON.parse(event.body);
+  deleteProgram(UserId, ProgramName)
+  .then(() => {
+    callback(null, jsonResponse({
+      message: "Deleted Program"
+    }));
+  })
+  .catch(err => {
+    callback(err);
+  });
+};
+
 module.exports.app = (event, context, callback) => {
   sendOk(app(), callback);
-}
-
+};

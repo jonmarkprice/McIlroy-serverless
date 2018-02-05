@@ -57,4 +57,11 @@ functions:
           method: POST
           authorizer:
             arn: ${file(aws.yml):userpool_arn}
-
+  deleteProgram:
+    handler: handler.deleteProgram
+    events:
+      - http:
+          path: programs/delete
+          method: POST
+          authorizer:
+            arn: ${file(aws.yml):userpool_arn}
