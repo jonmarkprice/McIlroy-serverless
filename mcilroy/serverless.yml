@@ -49,6 +49,12 @@ functions:
       - http:
           path: api
           method: get
+  app:
+    handler: handler.app
+    events:
+      - http:
+          path: app
+          method: get
   saveProgram:
     handler: handler.saveProgram
     events:

@@ -22,13 +22,16 @@
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-react": "^6.24.1",
+    "debug": "^3.1.0",
     "json-loader": "^0.5.7",
     "prop-types": "^15.6.0",
+    "ramda": "^0.25.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
+    "sanctuary": "^0.14.1",
     "webpack": "^3.10.0"
   },
   "devDependencies": {

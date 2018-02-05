@@ -7,6 +7,7 @@ const loginPage = require('../../server/pages/login');
 const registrationPage = require('../../server/pages/register');
 const profilePage = require('../../server/pages/profile');
 const apiPage = require('../../server/pages/api');
+const mainPage = require('../../server/pages/app');
 
 const app = express();
 const port = 3000;
@@ -32,6 +33,10 @@ app.get('/register', function (req, res) {
 
 app.get('/api', function (req, res) {
   res.send(apiPage());
+});
+
+app.get('/app', function (req, res) {
+  res.send(mainPage());
 });
 
 console.log('Listening on port ' + port + '...');

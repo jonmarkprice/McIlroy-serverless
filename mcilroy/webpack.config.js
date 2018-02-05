@@ -6,7 +6,8 @@ module.exports = {
     login: './client/pages/login.js',
     register: './client/pages/register.js',
     profile: './client/pages/profile.js',
-    api: './client/pages/api.js'
+    api: './client/pages/api.js',
+    app: './client/pages/app.js'
   },
   module: {
     loaders: [
@@ -45,6 +46,10 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'api',
       chunks: ['api']
-    })
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'app',
+      chunks: ['app']
+    })      
   ]
 };

@@ -4,6 +4,7 @@ const loginPage = require('./server/pages/login');
 const registrationPage = require('./server/pages/register');
 const profilePage = require('./server/pages/profile');
 const apiPage = require('./server/pages/api');
+const app = require('./server/pages/app');
 
 // TODO: move jsonResponse to database/helpers or something
 const addItem = require('./server/database/save-program');
@@ -67,3 +68,8 @@ module.exports.fetchPrograms = (event, context, callback) => {
     callback(err);
   });
 };
+
+module.exports.app = (event, context, callback) => {
+  sendOk(app(), callback);
+}
+
