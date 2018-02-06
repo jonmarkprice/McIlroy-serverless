@@ -5,8 +5,6 @@ const dbg = require('../dbgconf')('containers:edit-saved');
 const { checkName } = require('../helpers');
 
 const {
-  // enableEditng
-  // disableEditing
   unsetEditing
 , displayEditMessage
 } = require('../actions/edit');
@@ -14,8 +12,7 @@ const {
 // update UI only (no server)
 // TODO: rewrite to also update expansion
 const { updateProgram } = require('../actions/saved');
-
-const { updateProgramOnServer } = require('../actions/saved-async');
+const updateProgramOnServer = require('../actions/async/updateProgram');
 
 const mapStateToProps = state => ({
   id      : state.edit.id
@@ -35,11 +32,9 @@ const mapDispatchToProps = dispatch => ({
     dbg(`Renaming id: ${id}`);
     dbg('Dispatching save with new program: %o', newProgram);
 
-    // TODO: Move to be called *AFTER* dispatch successful, maybe by enable
-    // editing. // TODO: get those as well...
-    dispatch(updateProgram(id, newName, newProgram)); // UI
+    dispatch(updateProgram(id, newName, newProgram));
     dispatch(unsetEditing());
-    
+
     // dispatch async action to server // id optional
     dispatch(updateProgramOnServer(username, id, oldName, newName, newProgram));
   },

@@ -6,7 +6,7 @@ const { removeProgram } = require('../saved');
 const deleteProgram = (userId, id, name) => dispatch => {
   const body = {
     UserId: getUser().username,
-    ProgramName: name || 'untitled',
+    ProgramName: name,
   };
 
   getAuthToken()

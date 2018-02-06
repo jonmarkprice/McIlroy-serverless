@@ -1,14 +1,14 @@
 .flash {
   background-color: lightyellow;
   border: thin solid gold;
-  margin-left: 5mm;
-  margin-right: 5mm;
   padding: 1mm;
   border-radius: 1mm;
 
   /* positioning */
   position: absolute;
   margin-top: -3mm;
+  margin-left: 25%;
+  z-index: 10;
 }
 
 .flash-no-message {
