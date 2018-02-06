@@ -18,7 +18,7 @@ function handleRegistration(email, pw, conf) {
     .then(
       function (res) { // val ignored
         console.log('Logged in ' + res.user.getUsername());
-        window.location.href = 'profile';
+        window.location.href = 'app';
       },
       function (err) {
         console.error(err);

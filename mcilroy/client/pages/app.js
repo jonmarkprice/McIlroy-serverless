@@ -9,24 +9,25 @@ const loadPrograms = require('../../common/actions/async/loadPrograms');
 const { login } = require('../../common/actions/user');
 const { getUser } = require('../helpers/cognito');
 
-dbg('Started successfully!');
+const user = getUser();
+if (user === null) {
+  document.write("Permission denied");
+  window.location.href = "login";
+} else {
+  const preloadedState = window.__PRELOADED_STATE__;
+  delete window.__PRELOADED_STATE__;
+  const store = configureStore(reducer, preloadedState);
 
-const preloadedState = window.__PRELOADED_STATE__;
-delete window.__PRELOADED_STATE__;
-const store = configureStore(reducer, preloadedState);
+  hydrate( // was render
+    <Provider store={store}>
+      <Interpretter />
+    </Provider>,
+    document.getElementById('app')
+  );
 
-hydrate( // was render
-  <Provider store={store}>
-    <Interpretter />
-  </Provider>,
-  document.getElementById('app')
-);
-
-// Now fire off async actions...
-console.log('Firing off async actions...');
-
-const username = getUser().username;
-store.dispatch(login(username));
-store.dispatch(loadPrograms(username));
-
-console.log('...actions dispatched.');
+  // Now fire off async actions...
+  console.log('Firing off async actions...');
+  store.dispatch(login(user.username));
+  store.dispatch(loadPrograms(user.username));
+  console.log('...actions dispatched.');
+}

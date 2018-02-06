@@ -1,4 +1,6 @@
 const React = require('react');
+const { connect } = require('react-redux');
+const logout = require('../actions/async/logout');
 
 class Banner extends React.Component {
   render() {
@@ -8,7 +10,7 @@ class Banner extends React.Component {
     const User = (
       <div id="user-control">
         <div id="user-greeting">Hello, {this.props.username}</div>
-        <a href="/api/user/logout">Log out</a>
+        <a onClick={this.props.logout}>Log out</a>
       </div>
     );
     const noUser = (
@@ -26,4 +28,10 @@ class Banner extends React.Component {
   }
 }
 
-module.exports = Banner;
+const mapDispatchToProps = dispatch => ({
+  logout: () => {
+    dispatch(logout());
+  }
+});
+
+module.exports = connect(undefined, mapDispatchToProps)(Banner);
