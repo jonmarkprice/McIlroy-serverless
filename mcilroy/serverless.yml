@@ -79,5 +79,9 @@ functions:
     handler: handler.sessions
     events:
       - http:
-          path: sessions
+          path: sessions/{foo}
           method: GET
+          request:
+            parameters:
+              paths:
+                foo: false
