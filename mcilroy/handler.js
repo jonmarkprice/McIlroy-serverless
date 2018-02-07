@@ -10,6 +10,7 @@ const addItem = require('./server/database/save-program');
 const getUserPrograms = require('./server/database/fetch-programs');
 const deleteProgram = require('./server/database/delete-program');
 const { jsonResponse } = require('./server/database/helpers');
+const addSession = require('./server/database/add-session');
 
 const serverlessHttp = require('serverless-http');
 const router = require('./server/router');
@@ -92,3 +93,13 @@ module.exports.sessions = serverlessHttp(router);
 //  (event, context, callback) => { sendOk('hello!', callback); }
 
 module.exports.users = serverlessHttp(sessionRouter);
+
+module.exports.addSession = (event, context, callback) => {
+  addSession()
+  .then(() => {
+    callback(null, jsonResponse({message: 'Session added'}));
+  })
+  .catch(err => {
+    callback(err);
+  });
+};
