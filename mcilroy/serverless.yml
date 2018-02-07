@@ -85,3 +85,13 @@ functions:
             parameters:
               paths:
                 foo: false
+  users:
+    handler: handler.users
+    events:
+      - http:
+          path: users/{route}
+          method: GET
+          request:
+            parameters:
+              paths:
+                route: true

@@ -13,6 +13,7 @@ const { jsonResponse } = require('./server/database/helpers');
 
 const serverlessHttp = require('serverless-http');
 const router = require('./server/router');
+const sessionRouter = require('./server/session-router');
 
 function sendOk(body, callback) {
   callback(null, {
@@ -89,3 +90,5 @@ module.exports.pathTest = (event, context, callback) => {
 // TODO: figure out how to get path parameters, etc.
 module.exports.sessions = serverlessHttp(router);
 //  (event, context, callback) => { sendOk('hello!', callback); }
+
+module.exports.users = serverlessHttp(sessionRouter);
