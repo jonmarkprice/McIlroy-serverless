@@ -3,8 +3,8 @@ const appConfig = require('./config');
 const { toUsername } = require('./misc');
 
 // What about region?
-const { Config } = require('aws-sdk');
-Config.region = appConfig.cognito.region;
+const { config } = require('aws-sdk');
+config.region = appConfig.cognito.region;
 
 const poolData = {
   UserPoolId: appConfig.cognito.userPoolId,

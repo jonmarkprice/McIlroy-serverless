@@ -11,6 +11,9 @@ const getUserPrograms = require('./server/database/fetch-programs');
 const deleteProgram = require('./server/database/delete-program');
 const { jsonResponse } = require('./server/database/helpers');
 
+const serverlessHttp = require('serverless-http');
+const router = require('./server/router');
+
 function sendOk(body, callback) {
   callback(null, {
     statusCode: 200,
@@ -76,3 +79,13 @@ module.exports.deleteProgram = (event, context, callback) => {
 module.exports.app = (event, context, callback) => {
   sendOk(app(), callback);
 };
+
+module.exports.pathTest = (event, context, callback) => {
+  console.log(event.pathParameters);
+  const rendered = 'You went to: ' + event.pathParameters.foo;
+  sendOk(rendered, callback);
+};
+
+// TODO: figure out how to get path parameters, etc.
+module.exports.sessions = serverlessHttp(router);
+//  (event, context, callback) => { sendOk('hello!', callback); }

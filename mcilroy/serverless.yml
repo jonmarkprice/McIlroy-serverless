@@ -65,3 +65,19 @@ functions:
           method: POST
           authorizer:
             arn: ${file(aws.yml):userpool_arn}
+  pathTest:
+    handler: handler.pathTest
+    events:
+      - http:
+          path: test/paths/{foo}
+          method: GET
+          request:
+            parameters:
+              paths:
+                foo: false
+  sessions:
+    handler: handler.sessions
+    events:
+      - http:
+          path: sessions
+          method: GET

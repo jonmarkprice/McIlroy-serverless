@@ -23,6 +23,7 @@
     "babel-loader": "^7.1.2",
     "babel-preset-react": "^6.24.1",
     "debug": "^3.1.0",
+    "express": "^4.16.2",
     "json-loader": "^0.5.7",
     "prop-types": "^15.6.0",
     "ramda": "^0.25.0",
@@ -32,12 +33,12 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "sanctuary": "^0.14.1",
+    "serverless-http": "^1.5.3",
     "webpack": "^3.10.0"
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
     "dotenv": "^5.0.0",
-    "express": "^4.16.2",
     "rimraf": "^2.6.2"
   }
 }
