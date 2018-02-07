@@ -112,6 +112,12 @@ functions:
       - http:
           path: session/add
           method: GET
+  cookieHome:
+    handler: handler.cookieHome
+    events:
+      - http:
+          path: cookie/home
+          method: GET
 
 resources:
   Resources:

@@ -10,7 +10,11 @@ const addItem = require('./server/database/save-program');
 const getUserPrograms = require('./server/database/fetch-programs');
 const deleteProgram = require('./server/database/delete-program');
 const { jsonResponse } = require('./server/database/helpers');
-const addSession = require('./server/database/add-session');
+const { addSession
+  , getSession
+  , endSession } = require('./server/database/session');
+
+const cookieHome = require('./server/pages/home');
 
 const serverlessHttp = require('serverless-http');
 const router = require('./server/router');
@@ -103,3 +107,33 @@ module.exports.addSession = (event, context, callback) => {
     callback(err);
   });
 };
+
+module.exports.cookieHome = (event, context, callback) => {
+  sendOk(cookieHome(), callback);
+};
+
+// TODO: do I need to test these at all? 
+/*
+module.exports.getSession = (event, context, callback) => {
+  const { id } = JSON.stringify(event.body);
+  getSession(id)
+  .then(data => {
+    callback(null, jsonResponse({data}));
+  })
+  .catch(err => {
+    callback(err);
+  });
+};
+
+module.exports.endSession = (event, context, callback) => {
+  const { id } = JSON.stringify(event.body);
+  endSession(id)
+  .then(() => {
+    callback(null, jsonResponse({message: 'Session deleted'}));
+  })
+  .catch(err => {
+    callback(err);
+  });
+};
+*/
+
