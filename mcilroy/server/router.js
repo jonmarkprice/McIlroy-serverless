@@ -32,19 +32,16 @@ router.post('/api/test', function(req, res) {
 
 router.post('/api/save', jsonParser, function (req, res) {
   const username = req.body.username; // others?
-
   console.log("USERNAME: ", username)
-
   addCookie(username)
   .then(data => {
     const payload = {
-      session: data.session
+      session: data.session,
+      username: data.username
     };
     console.log('--- DynomDB response data ---');
     console.log(data);
 
-    // console.log('sesssion: %s', session);
-    
     // TODO: eventually, may need to set auth headers, etc.
     // see client/helpers:{jsonResponse}
     /*
@@ -65,8 +62,9 @@ router.post('/api/save', jsonParser, function (req, res) {
 });
 
 router.get('/home', (req, res) => {
-  if (req.cookies.username === 'monty') {
-    res.send('<p>Welcome friend!</p><a href="logout">logout</a>');
+  if (req.cookies.username) {
+    res.write('<p>Welcome ' + req.cookies.username + '!</p>');
+    res.send('<a href="logout">logout</a>');
   } else {
     res.write('<p>')
     res.write('Your mother was a newt...');
@@ -76,13 +74,18 @@ router.get('/home', (req, res) => {
   }
 });
 
+/* // This is now client-side
 router.get('/login', (req, res) => {
   res.cookie("username", "monty");
   res.redirect('home');
 });
+*/
 
 router.get('/logout', (req, res) => {
-  res.clearCookie("username");
+  res.clearCookie("username", {path: "/dev/"});
+  res.clearCookie("session", {path: "/dev/"});
+
+  // res.cookie("logged-out", "true", {path: "/dev/"});
   res.redirect('home');
 });
 

@@ -1,4 +1,4 @@
-const version = "0.2.2";
+const version = "0.2.4";
 console.log("script loaded, version %s", version);
 
 new Vue({ 
@@ -28,8 +28,20 @@ new Vue({
       })
       .then(res => res.json())
       .then(body => {
-        console.log("session: %s", body.session);
         console.log(body);
+        // Try to set two cookies
+        // Paths and other options need to be the same as
+        // cookies on the server, or log-out will fail.
+        // TODO:
+        // Need to add a function to purge sessions on logout as well.
+        // Should also add a timestamp to the database and purge *all*
+        // after that time has elapsed...
+        // Who should call that function, and when?
+        // It could be:
+        // 1. something that is run every N logins... 
+        document.cookie=`username=${body.username};path=/dev/`;
+        document.cookie=`session=${body.session};path=/dev/`;
+        window.location.href = "/dev/sessions/home";
       })
       .catch(err => { alert(err); }); 
     }
