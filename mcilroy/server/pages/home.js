@@ -10,12 +10,10 @@ module.exports = () =>
     <div id="app">
       <legend>Set username</legend>
       <input type="text" v-model="username" />
-      <button>Log In</button>
-
-      <button v-on:click="echo">Echo</button>
+      <button v-on:click="storeCookie">Log In</button>
+      <button v-on:click="echo">Echo username</button>
     </div>
     <script>
-<!-- just put here instead -->
 console.log('script loaded');
 
 new Vue({ 
@@ -26,11 +24,26 @@ new Vue({
   methods: {
     echo: function() {
       console.log('Username: %s', this.username);
+    },
+    storeCookie: function() {
+      // I think this can be async and 'just work'
+      const opts = {
+        method: 'POST',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+        }),
+        mode: 'cors',
+        body: JSON.stringify({username: this.username})
+      };
+      fetch('api/store', opts)
+      .then(res => res.json())
+      .then(body => {
+        console.log(body);
+      })
+      .catch(err => { alert(err); }); 
     }
   }
 });
-
-<!-- -->
     </script>
   </body>
 </html>`;

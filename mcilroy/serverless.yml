@@ -118,6 +118,12 @@ functions:
       - http:
           path: cookie/home
           method: GET
+  storeCookie:
+    handler: handler.storeCookie
+    events:
+      - http:
+          path: cookie/api/store
+          method: POST
 
 resources:
   Resources:

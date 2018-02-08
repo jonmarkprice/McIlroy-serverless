@@ -15,6 +15,7 @@ const { addSession
   , endSession } = require('./server/database/session');
 
 const cookieHome = require('./server/pages/home');
+const addCookie = require('./server/database/add-cookie');
 
 const serverlessHttp = require('serverless-http');
 const router = require('./server/router');
@@ -110,6 +111,28 @@ module.exports.addSession = (event, context, callback) => {
 
 module.exports.cookieHome = (event, context, callback) => {
   sendOk(cookieHome(), callback);
+};
+
+module.exports.storeCookie = (event, context, callback) => {
+  const { username } = JSON.parse(event.body);
+  console.log("username: %s :: %s", username, typeof username);
+
+  // TODO: may want to continue to session ids on the server, for
+  // security & so that, if it was invalid, we would not get it back
+  // as the add would fail...
+  addCookie(username) // responds with the sessionId
+  .then(res => {
+    // TODO: only give back session id
+    console.log('--- [Response from DynamoDB caller] ---');
+    console.log(res);
+
+    // callback(null, jsonResponse(res[1])); // to send obj
+    // callback(null, jsonResponse(res[1].session) // only session
+    callback(null, jsonResponse(res));
+  })
+  .catch(err => {
+    callback(err);
+  });
 };
 
 // TODO: do I need to test these at all? 
