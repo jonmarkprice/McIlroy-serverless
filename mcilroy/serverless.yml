@@ -118,6 +118,12 @@ functions:
       - http:
           path: cookie/home
           method: GET
+  cookieProfile:
+    handler: handler.cookieProfile
+    events:
+      - http:
+          path: cookie/profile
+          method: GET
   storeCookie:
     handler: handler.storeCookie
     events:

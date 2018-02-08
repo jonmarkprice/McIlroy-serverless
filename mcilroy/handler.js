@@ -14,6 +14,7 @@ const { addSession
   , getSession
   , endSession } = require('./server/database/session');
 
+const cookieProfile = require('./server/pages/profile');
 const cookieHome = require('./server/pages/home');
 const addCookie = require('./server/database/add-cookie');
 
@@ -111,6 +112,28 @@ module.exports.addSession = (event, context, callback) => {
 
 module.exports.cookieHome = (event, context, callback) => {
   sendOk(cookieHome(), callback);
+};
+
+module.exports.cookieProfile = (event, context, callback) => {
+  // parse cookie
+  // TODO: later verify
+  const cookie = {username: "Uh oh!"};
+
+  const loggedIn = false; 
+  if (loggedIn) {
+    const username = cookie.username; //TODO
+    sendOk(cookieProfile(username), callback);
+  } else {
+    // redirect(); // make function?
+    callback(null, {
+      statusCode: 303,
+      headers: {
+        "Content-Type": "text/html",
+        "Location": "home"
+      },
+      body: "<p>You must be logged in to view this page.</p>"
+    });
+  }
 };
 
 module.exports.storeCookie = (event, context, callback) => {

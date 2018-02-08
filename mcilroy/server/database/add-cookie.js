@@ -7,19 +7,7 @@ function genId() {
 }
 
 function addCookie(username) {
-  console.log("Username: %s", username);
-  console.log(":: %s", typeof username);
-  /*
-  const session = genId();
-  const dbRes = ddb.put({
-    TableName: "McIlroySessions",
-    Item: {session, username}
-  }).promise();
-  const data = Promise.resolve({session, username});
-  return Promise.all([dbRes, data]);
-  */
-
-  // 2.0
+  console.log("Adding username: %s", username);
   return new Promise((resolve, reject) => {
     const session = genId();
     ddb.put({
