@@ -90,12 +90,11 @@ functions:
     handler: handler.sessions
     events:
       - http:
-          path: sessions/{foo}
+          path: sessions
           method: GET
-          request:
-            parameters:
-              paths:
-                foo: false
+      - http:
+          path: sessions/{paths+}
+          method: GET
   users:
     handler: handler.users
     events:
