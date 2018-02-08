@@ -1,3 +1,4 @@
+const S3_URL = "https://mcilroy.s3-us-west-1.amazonaws.com"
 module.exports = () => 
 `<!DOCTYPE>
 <html>
@@ -13,37 +14,7 @@ module.exports = () =>
       <button v-on:click="storeCookie">Log In</button>
       <button v-on:click="echo">Echo username</button>
     </div>
-    <script>
-console.log('script loaded');
-
-new Vue({ 
-  el: '#app', 
-  data: { 
-    username: 'default' 
-  },
-  methods: {
-    echo: function() {
-      console.log('Username: %s', this.username);
-    },
-    storeCookie: function() {
-      // I think this can be async and 'just work'
-      const opts = {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
-        mode: 'cors',
-        body: JSON.stringify({username: this.username})
-      };
-      fetch('api/store', opts)
-      .then(res => res.json())
-      .then(body => {
-        console.log(body);
-      })
-      .catch(err => { alert(err); }); 
-    }
-  }
-});
+    <script src="${S3_URL}/scripts/home.js">
     </script>
   </body>
 </html>`;
