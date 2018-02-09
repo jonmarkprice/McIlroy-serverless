@@ -32,7 +32,7 @@ class LoginForm extends React.Component {
             event.preventDefault();
             this.logIn(); // call ref. function
           }}>
-          <legend>Log In</legend>
+          <legend>Sign In</legend>
 
           <label htmlFor="username" id="username-label">Email</label>
           <input name="email" id="email" type="text"
