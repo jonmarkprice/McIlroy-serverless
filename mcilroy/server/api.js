@@ -11,16 +11,13 @@ api.post('/ping', function (req, res) {
 
 api.post('/save', jsonParser, function (req, res) {
   const { username, token } = req.body;
-  console.log("USERNAME: ", username);
-  console.log("TOKEN: ", token);
-  createSession(username)
+  createSession(username, token)
   .then(data => {
     const payload = {
       session: data.session,
-      username: data.username, // not really necessary...
-      token: token
+      username: data.username // not really necessary...
     };
-    res.json(payload);
+    res.json(payload); // response to user
   })
   .catch(err => {
     res.status(400).json({

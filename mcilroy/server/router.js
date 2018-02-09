@@ -8,6 +8,7 @@ const { createSession,
         getSession,
         endSession } = require("./database/session");
 const api = require("./api");
+const getUserPrograms = require("./database/fetch-programs");
 
 // React Pages
 const loginPage = require("./pages/login");
@@ -30,9 +31,37 @@ function loggedOn(cookies) {
 // Routes
 router.get('/', (req, res) => {
   if (req.cookies.username && req.cookies.session) {
-    getSession(req.cookies.session)
-    .then(function (){ // Don't need data
-      res.send(mainPage());
+    // Check the database for the session id.
+    getSession(req.cookies.session) // TODO: try a 'fake' one.
+    // TODO return user id
+    // TODO: what does this return?
+    .then(result => {
+      // TODO: we probably need to do something similar to before
+      // where we append (async) a username to the result.
+      const username = result.Item.username; 
+      console.log(result.Item);
+      console.log("Username: ", username);
+
+      return new Promise(function (resolve, reject) {
+        getUserPrograms(username)
+        .then(programs => {
+          console.log('GOT USER PROGRAMS:');
+          console.log(programs);
+          return programs;
+        })
+        .then(programs => resolve({username, programs: programs.Items}))
+        .catch(reject);
+      });
+    })
+    .then(function ({username, programs}) {
+      // TODO: use programs 
+      // TODO: get username!
+      // Will need to dispatch actions somewhere...
+      console.log('username: ', username);
+      console.log('programs');
+      console.log(programs);
+
+      res.send(mainPage(username, programs));
     })
     .catch(function (err) {
       console.error("Couldn't get session", err);

@@ -6,12 +6,9 @@ const renderPage = require('../renderPage');
 const reducer = require('../../common/reducers/appRoot');
 const Interpretter = require('../../lib/containers/Interpretter'); // or common
 const { pushInput } = require('../../common/actions/input');
-
+const { login } = require('../../common/actions/user');
+const { addProgram } = require("../../common/actions/saved");
 const stylesheets = ['common', 'banner', 'index', 'flash'];
-const store = setupStore();
-const provider = React.createElement(Provider, {store},
-  React.createElement(Interpretter, null, null)
-);
 
 function setupStore() {
   const store = configureStore(reducer, undefined);
@@ -38,14 +35,30 @@ function setupStore() {
     data  : 'A' 
   }));
 
-  return store; //.getState();
+  return store;
 }
 
-module.exports = () => 
-  renderPage(provider, {
+module.exports = function (username, programs) { 
+  const store = setupStore();
+  const provider = React.createElement(Provider, {store},
+    React.createElement(Interpretter, null, null)
+  );
+
+  store.dispatch(login(username));
+
+  console.log("PROGRAMS: ")
+  console.log(programs)
+
+  programs.forEach(function (item) {
+    console.log('- %s', item);
+    store.dispatch(addProgram(item.ProgramName, item.Expansion));
+  });
+
+  return renderPage(provider, {
     title: 'McIlroy',
     stylesheets,
     state: store.getState(),
     bundles: ['app']
   });
+}
 
