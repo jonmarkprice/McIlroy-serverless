@@ -10,13 +10,9 @@ const addItem = require('./server/database/save-program');
 const getUserPrograms = require('./server/database/fetch-programs');
 const deleteProgram = require('./server/database/delete-program');
 const { jsonResponse } = require('./server/database/helpers');
-const { addSession
-  , getSession
-  , endSession } = require('./server/database/session');
 
 const cookieProfile = require('./server/pages/profile');
 const cookieHome = require('./server/pages/home');
-const addCookie = require('./server/database/add-cookie');
 
 const serverlessHttp = require('serverless-http');
 const router = require('./server/router');
@@ -135,7 +131,7 @@ module.exports.cookieProfile = (event, context, callback) => {
     });
   }
 };
-
+/*
 module.exports.storeCookie = (event, context, callback) => {
   const { username } = JSON.parse(event.body);
   console.log("username: %s :: %s", username, typeof username);
@@ -148,6 +144,7 @@ module.exports.storeCookie = (event, context, callback) => {
     callback(err);
   });
 };
+*/
 
 // TODO: do I need to test these at all? 
 /*

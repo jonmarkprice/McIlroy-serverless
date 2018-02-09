@@ -6,7 +6,8 @@ const bodyParser = require('body-parser');
 
 // Local dependencies
 const cookieHome = require("./pages/home");
-const addCookie = require("./database/add-cookie");
+const { createSession,
+        getSession } = require("./database/session");
 
 const jsonParser = bodyParser.json();
 const router = express.Router();
@@ -26,31 +27,15 @@ router.get('/', function (req, res) {
   res.send(cookieHome());
 });
 
-router.post('/api/test', function(req, res) {
-  res.json({recieved: true});
-});
-
 router.post('/api/save', jsonParser, function (req, res) {
   const username = req.body.username; // others?
   console.log("USERNAME: ", username)
-  addCookie(username)
+  createSession(username)
   .then(data => {
     const payload = {
       session: data.session,
       username: data.username
     };
-    console.log('--- DynomDB response data ---');
-    console.log(data);
-
-    // TODO: eventually, may need to set auth headers, etc.
-    // see client/helpers:{jsonResponse}
-    /*
-    res.setHeader({
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Creditials': true,
-      'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'
-    });
-    */
     res.json(payload);
   })
   .catch(err => {
@@ -61,10 +46,25 @@ router.post('/api/save', jsonParser, function (req, res) {
   });
 });
 
+// Authentication-required request
 router.get('/home', (req, res) => {
-  if (req.cookies.username) {
-    res.write('<p>Welcome ' + req.cookies.username + '!</p>');
-    res.send('<a href="logout">logout</a>');
+  if (req.cookies.username && req.cookies.session) {
+    getSession(req.cookies.session)
+    .then(data => {
+      res.write("<h2>Server data</h2>");
+      res.write("<pre>");
+      res.write(JSON.stringify(data));
+      res.write("</pre>"); 
+      res.write('<p>Welcome ' + req.cookies.username + '!</p>');
+      res.send('<a href="logout">logout</a>');
+      // I am tempted to "touch" the cookies here to ensure that
+      // they are correct in terms of options..
+      // Could verify that username is the same here.
+    })
+    .catch(err => {
+      res.send('<p>Error: could not find session</p>');
+      // res.redirect("/") ?
+    });
   } else {
     res.write('<p>')
     res.write('Your mother was a newt...');
@@ -73,13 +73,6 @@ router.get('/home', (req, res) => {
     res.send('<a href="login">login</a>');
   }
 });
-
-/* // This is now client-side
-router.get('/login', (req, res) => {
-  res.cookie("username", "monty");
-  res.redirect('home');
-});
-*/
 
 router.get('/logout', (req, res) => {
   res.clearCookie("username", {path: "/dev/"});

@@ -2,17 +2,29 @@
 const AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient();
 
-const genId = () => Math.random().toString(36).substring(7);
+function genId() {
+  return Math.random().toString(36).substring(7);
+}
 
-const addSession = () => ddb.put({
-  TableName: 'McIlroySessions',
-  Item: {
-    session: genId(),
-    username: 'testuser'
-  }
-}).promise();
+function createSession(username) {
+  console.log("Adding username: %s", username);
+  return new Promise((resolve, reject) => {
+    const session = genId();
+    ddb.put({
+      TableName: "McIlroySessions",
+      Item: {session, username}
+    })
+    .promise()
+    .then(() => { // returns empty object
+      resolve({session, username})
+    })
+    .catch(err => {
+      reject(err);
+    });
+  });
+}
 
-getSession = (id) => ddb.get({
+const getSession = (id) => ddb.get({
   TableName: 'McIlroySessions',
   Key: {'session': id}
 }).promise();
@@ -23,7 +35,7 @@ const endSession = (id) => ddb.delete({
 }).promise();
 
 module.exports = {
-  addSession,
+  createSession,
   getSession,
   endSession
 }
