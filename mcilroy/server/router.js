@@ -22,6 +22,11 @@ app.use(cookieParser()); // will this affect the router?
 
 app.use('/sessions', router);
 
+// Helper(s):
+function loggedOn(cookies) {
+  return cookies.session !== undefined;
+}
+
 // Routes
 router.get('/', (req, res) => {
   if (req.cookies.username && req.cookies.session) {
@@ -29,22 +34,34 @@ router.get('/', (req, res) => {
     .then(function (){ // Don't need data
       res.send(mainPage());
     })
-    .catch(function (err) { // Ignoring for now
-      res.redirect("/login"); // set flash?
+    .catch(function (err) {
+      console.error("Couldn't get session", err);
+      res.redirect("login");
     });
   } else {
-    res.send("You are not logged in");
+    res.redirect("login");
   }
 });
 
 router.get('/login', function (req, res) {
-  // res.send(cookieHome());
-  res.send(loginPage());
+  if (loggedOn(req.cookies)) {
+    res.redirect(".");
+  } else {
+    res.send(loginPage());
+  }
+});
+
+router.get("/register", function (req, res) {
+  if (loggedOn(req.cookies)) {
+    res.redirect(".");
+  } else {
+    res.send(registrationPage());
+  }
 });
 
 // Authentication-required request
 router.get('/home', (req, res) => {
-  if (req.cookies.username && req.cookies.session) {
+  if (loggedOn(req.cookies)) {
     getSession(req.cookies.session)
     .then(data => {
       res.write("<h2>Server data</h2>");
@@ -58,24 +75,21 @@ router.get('/home', (req, res) => {
       // Could verify that username is the same here.
     })
     .catch(err => {
-      res.send('<p>Error: could not find session</p>');
-      // res.redirect("/") ?
+      res.write('<p>Error: could not find session.</p>');
+      res.send('<a href="login">Log In</a>');
     });
   } else {
-    res.write('<p>')
-    res.write('Your mother was a newt...');
-    res.write('and your father smelt of elderberries.');
-    res.write('</p>');
-    res.send('<a href="..">login</a>'); //XXX
+    res.redirect("login");
   }
 });
 
 router.get('/logout', (req, res) => {
+  // Mb. check cookies set?
   endSession(req.cookies.session)
   .then(data => {
     res.clearCookie("username", {path: "/dev/"});
     res.clearCookie("session", {path: "/dev/"});
-    res.redirect('home');
+    res.redirect('login');
   })
   .catch(err => {
     res.write("<h2>ERROR logging out</h2>");
