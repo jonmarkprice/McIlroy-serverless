@@ -1,0 +1,85 @@
+3 lambda functions
+
+1. cookie/home (vue)
+2. cookie/api/store (json)
+3. cookie/profile (plain html)
+[see addSession]
+
+Files:
+// client/scripts/home.js    : gen sess id, token; fetch -> cookie/api/store
+// ==> instead, integrate into <script>.
+
+server/pages/home.js      : gen html for cookie/home
+server/sessions/store.js  :
+server/pages/profile.js   : lookup sess, if ok -> send html for cookie/profile,
+                          . otherwise -> redir to home [mb. later error]
+server/database/add-cookie.js : copy of addSession, with username arg
+
+in serverless, handlers -> 3 above fns/routes
+
+Testing:
+Each route can be tested alone, in order..
+1. displays pg
+2. [on click] stores new session in db
+3. redir or display correct username
+
+----
+Have 
+1 and 3 working.
+need to 
+[ ] set cookies from client (easy)
+[ ] parse cookies on server (hard-ish)
+
+However, I am probably going to use express and cookie parser for these.
+It seems like that is probably the right balance. I don't want to throw out
+the baby with the bathwater -- just because connect-dynamodb doesn't work.
+
+Express + cooke parser seem to be working fine.
+
+There are two libraries for dynamodb with express session, but both create
+a table as well, which I don't want.
+I want to store the token in the session table, so I want to have full control of it, not have it be created at the whim of express-session.
+Currently the only issue I am forseeing is ... doing it.
+
+- I have (untested) get, set, and delete methods for the session table.
+- I have client-side cookie setting
+- I have client-side Cognito authentication/token retrieval.
+- I have server side cookie parsing/branching
+
+I think it's just time to put it all together
+
+TODO:
+Combine:
+- cookie/home
+- cookie/api/store
+- cookie/profile
+with
+- sessions/* (server/router.js)
+
+- [x] move cookie scan to branch
+- [x] save note about sort key:
+      Use creation-date as teh sort key. Then can do a  simple range 
+      comparision, e.g. DeleteItem(where date_created > ${threshhold}
+- [x] Add lookup [verify user exists on server]
+- [x] Add logout (SS deletion)
+- [x] Add authentication (cognito)
+  - [x] Make route serve up React pages
+  - [x] Move session setting to React
+- [~] Update URLs
+  - [~] Log-out in Banner
+  - [x] /home
+- [x] Add app
+- [x] Save token to database
+- [x] Make getSession return JWToken
+- [x] Send JWT to server
+- [x] Remove old client JS routing logic (client/pages?)
+  - [x] app
+- [ ] enable SSR in app 
+  - [ ] remove fetching of programs
+  - [ ] remove fetching of username
+- [x]  Add registration
+  - [x] Add page
+  - [x] Redirect if logged in
+
+- (opt). Get display name from a Users table
+

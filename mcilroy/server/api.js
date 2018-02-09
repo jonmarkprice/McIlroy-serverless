@@ -10,13 +10,15 @@ api.post('/ping', function (req, res) {
 });
 
 api.post('/save', jsonParser, function (req, res) {
-  const username = req.body.username; // others?
-  console.log("USERNAME: ", username)
+  const { username, token } = req.body;
+  console.log("USERNAME: ", username);
+  console.log("TOKEN: ", token);
   createSession(username)
   .then(data => {
     const payload = {
       session: data.session,
-      username: data.username
+      username: data.username, // not really necessary...
+      token: token
     };
     res.json(payload);
   })

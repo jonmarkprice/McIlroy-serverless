@@ -6,13 +6,14 @@ function genId() {
   return Math.random().toString(36).substring(7);
 }
 
-function createSession(username) {
+function createSession(username, token) {
   console.log("Adding username: %s", username);
+  console.log("Got token: %s", token); // undef.
   return new Promise((resolve, reject) => {
     const session = genId();
     ddb.put({
       TableName: "McIlroySessions",
-      Item: {session, username}
+      Item: {session, username, token}
     })
     .promise()
     .then(() => { // returns empty object

@@ -1,5 +1,6 @@
 const ACI = require('amazon-cognito-identity-js');
-const { createCognitoUser } = require('../../../client/helpers/cognito');
+const { createCognitoUser,
+        getAuthToken  } = require('../../../client/helpers/cognito');
 const { toUsername } = require('../../../client/helpers/misc');
 
 // async action
@@ -12,33 +13,9 @@ function handleLogIn(email, password) {
         function fail(err) { reject(err); }
       );
     })
-    .then(() => {
-      console.log("Authentication successful.");
-      return storeCookie(email);
-    })
-    /* Debugging
-    .then(res => {
-      console.log("type: ", typeof res);
-      console.log("is Response: ", res instanceof Response);
-      console.log("Response");
-      console.log(res);
-      return  res;
-    }) */
+    .then(getAuthToken) // ignores args
+    .then(token => storeCookie(email, token))
     .then(res => res.json())
-    /* Debugging 
-    .then(res => {
-      res.text()
-      .then(parsed => {
-        console.log("Text: ");
-        console.log(parsed);
-        return parsed;
-      })
-      .catch(err => {
-        console.log("Read error");
-        //console.error(error);
-        throw error;
-      })
-    }) */
     .then(
       body => {
         // TEMP XXX // const body = JSON.parse(text);
@@ -72,14 +49,15 @@ function signIn(email, pw, onSuccess, onFailure) {
     .authenticateUser(authDetails, {onSuccess, onFailure});
 }
 
-function storeCookie(email) {
+function storeCookie(email, token) {
+  console.log('Got token: ', token);
   const opts = {
     method: 'POST',
     headers: new Headers({
       'Content-Type': 'application/json',
     }),
     mode: 'cors',
-    body: JSON.stringify({username: email})
+    body: JSON.stringify({username: toUsername(email), token})
   };
   console.log('Saving session...');
   return fetch('/dev/sessions/api/save', opts)
