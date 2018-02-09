@@ -49,6 +49,7 @@ Currently the only issue I am forseeing is ... doing it.
 I think it's just time to put it all together
 
 TODO:
+-------------------------------------------------------------------------------
 Combine:
 - cookie/home
 - cookie/api/store
@@ -74,12 +75,30 @@ with
 - [x] Send JWT to server
 - [x] Remove old client JS routing logic (client/pages?)
   - [x] app
-- [ ] enable SSR in app 
-  - [ ] remove fetching of programs
-  - [ ] remove fetching of username
+- [x] enable SSR in app 
+- [x] Attach programs/fetch
+- [x] Re-instate program CRUD
+  - [x] add program
+  - [x] delete program
+  - [x] update program
 - [x]  Add registration
   - [x] Add page
   - [x] Redirect if logged in
 
+- [ ] Test registration
+
+- [ ] Remove old async calls
+  - [x] remove fetching of programs
+  - [x] remove fetching of username
+
+- [ ] Make *all* API calls authenticated...
+  I think some of the newer ones aren't
+
+
+- [ ] Use/check {username, ok: boolean} from getSession() from router('/')
+
 - (opt). Get display name from a Users table
+  Cookies don't seem to update right away....
+
+
 
