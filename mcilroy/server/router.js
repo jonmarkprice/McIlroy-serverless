@@ -7,7 +7,8 @@ const bodyParser = require('body-parser');
 // Local dependencies
 const cookieHome = require("./pages/home");
 const { createSession,
-        getSession } = require("./database/session");
+        getSession,
+        endSession } = require("./database/session");
 
 const jsonParser = bodyParser.json();
 const router = express.Router();
@@ -70,16 +71,21 @@ router.get('/home', (req, res) => {
     res.write('Your mother was a newt...');
     res.write('and your father smelt of elderberries.');
     res.write('</p>');
-    res.send('<a href="login">login</a>');
+    res.send('<a href="..">login</a>'); //XXX
   }
 });
 
 router.get('/logout', (req, res) => {
-  res.clearCookie("username", {path: "/dev/"});
-  res.clearCookie("session", {path: "/dev/"});
-
-  // res.cookie("logged-out", "true", {path: "/dev/"});
-  res.redirect('home');
+  endSession(req.cookies.session)
+  .then(data => {
+    res.clearCookie("username", {path: "/dev/"});
+    res.clearCookie("session", {path: "/dev/"});
+    res.redirect('home');
+  })
+  .catch(err => {
+    res.write("<h2>ERROR logging out</h2>");
+    res.send("<pre>" + JSON.stringify(err) + "</pre>");
+  });
 });
 
 // handle 404 more elegantly
