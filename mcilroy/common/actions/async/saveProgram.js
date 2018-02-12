@@ -3,17 +3,18 @@ const { getAuthToken
 const { createOpts } = require('../../../client/helpers/misc');
 // const { addProgram } = require('../saved');
 
-const saveProgram = (userId, name, expansion) => dispatch => {
+const saveProgram = (userId, name, expansion, stage) => dispatch => {
   const body = {
     UserId: getUser().username,
     ProgramName: name || 'untitled',
     ProgramJSON: expansion || []
   };
+  const path = '/' + stage + '/programs/save';
 
   dispatch({type: 'SET_FLASH', message: 'Saving program...'});
 
   getAuthToken()
-  .then(tok => fetch('programs/save', createOpts(body, tok)))
+  .then(tok => fetch(path, createOpts(body, tok)))
   .then(res => res.json())
   .then( // Two parameter version handles both success & failure.
     parsed => {

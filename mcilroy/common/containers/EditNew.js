@@ -2,14 +2,9 @@ const React = require('react');
 const EditProgram = require('./EditProgram');
 const { connect } = require('react-redux');
 const dbg = require('../dbgconf')('containers:edit-new');
-const {
-  // enableEditng
-  // disableEditing
-  unsetEditing
-, displayEditMessage
-} = require('../actions/edit');
+const { unsetEditing
+      , displayEditMessage } = require('../actions/edit');
 const { addProgram } = require('../actions/saved');
-// const { saveProgram } = require('../actions/saved-async');
 const saveProgram = require('../actions/async/saveProgram');
 const { checkName } = require('../helpers');
 
@@ -17,23 +12,18 @@ const mapStateToProps = state => ({
   program   : state.edit.program,
   programs  : state.saved.programs,
   message   : state.edit.message,
-  username  : state.user.name
+  username  : state.user.name,
+  stage     : state.env.stage
 });
 
 const mapDispatchToProps = dispatch => ({
   done: () => {
     dispatch(unsetEditing());
   },
-  // TODO: Implement after save, delete, rename.
-  // clear: () => {
-  //   dispatch(clearCanvas());
-  // },
-  // addToken: text => {
-  //   dispatch(pushFunction(text));
-  // },
-  save: (username, name, program) => {
+  save: (username, name, program, stage) => {
     dbg('username %s', username)
-    dispatch(saveProgram(username, name, program));
+    dispatch(saveProgram(username, name, program, stage));
+    // Currently dealing with error in saveProgram itself 
     /*
     .then(
       v => { dbg('-- RECIEVED --'); },
@@ -64,7 +54,8 @@ class NewComponent extends React.Component {
    
     if (nameCheck.ok) {
       dbg('saving...');
-      this.props.save(this.props.username, name, this.props.program);
+      this.props.save(this.props.username, name, this.props.program,
+                      this.props.stage);
       this.props.addToUI(name, this.props.program);
       this.props.done();
     } else {

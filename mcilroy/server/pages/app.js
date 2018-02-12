@@ -8,9 +8,11 @@ const Interpretter = require('../../lib/containers/Interpretter'); // or common
 const { pushInput } = require('../../common/actions/input');
 const { login } = require('../../common/actions/user');
 const { addProgram } = require("../../common/actions/saved");
-const stylesheets = ['common', 'banner', 'index', 'flash'];
 
-function setupStore() {
+const stylesheets = ['common', 'banner', 'index', 'flash'];
+const { STAGE } = process.env;
+
+module.exports = function (username, programs) { 
   const store = configureStore(reducer, undefined);
 
   // Dispatch some actions
@@ -35,15 +37,6 @@ function setupStore() {
     data  : 'A' 
   }));
 
-  return store;
-}
-
-module.exports = function (username, programs) { 
-  const store = setupStore();
-  const provider = React.createElement(Provider, {store},
-    React.createElement(Interpretter, null, null)
-  );
-
   store.dispatch(login(username));
 
   console.log("PROGRAMS: ")
@@ -54,6 +47,11 @@ module.exports = function (username, programs) {
     store.dispatch(addProgram(item.ProgramName, item.Expansion));
   });
 
+  store.dispatch({type: 'SET_STAGE', stage: STAGE || 'unset'});
+
+  const provider = React.createElement(Provider, {store},
+    React.createElement(Interpretter, null, null)
+  );
   return renderPage(provider, {
     title: 'McIlroy',
     stylesheets,

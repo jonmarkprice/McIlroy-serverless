@@ -26,7 +26,8 @@ provider:
           - McIlroySessions
           - Arn
   environment:
-    S3_URL: ${file(aws.yml):s3_url} 
+    S3_URL: ${file(aws.yml):s3_url}
+    STAGE: dev 
 functions:
   login:
     handler: handler.login

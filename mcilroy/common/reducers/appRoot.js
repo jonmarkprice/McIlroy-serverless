@@ -1,20 +1,12 @@
 const { combineReducers } = require('redux');
-const inputReducer    = require('./input');
-const programReducer  = require('./canvas');
-const displayReducer  = require('./display');
-const savedReducer    = require('./saved');
-const editReducer     = require('./edit');
-const userReducer     = require('./user');
-const flashReducer    = require('./flash');
-
-const reducer = combineReducers({
-  input     : inputReducer,
-  program   : programReducer,
-  displayed : displayReducer,
-  saved     : savedReducer,
-  edit      : editReducer,
-  user      : userReducer,
-  flash     : flashReducer
+module.exports = combineReducers({
+  input     : require('./input'),
+  program   : require('./canvas'),
+  displayed : require('./display'),
+  saved     : require('./saved'),
+  edit      : require('./edit'),
+  user      : require('./user'),
+  flash     : require('./flash'),
+  env       : require('./env')
 });
 
-module.exports = reducer;
