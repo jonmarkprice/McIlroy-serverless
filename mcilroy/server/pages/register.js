@@ -5,18 +5,17 @@ const configureStore = require('../../common/configureStore');
 const renderPage = require('../renderPage');
 const reducer = require('../../common/reducers/flash');
 const RegistrationPage = require('../../lib/components/RegistrationPage');
-
 const stylesheets = ['common', 'banner', 'form', 'flash'];
-const store = configureStore(reducer, {flash: null});
-const provider = React.createElement(Provider, {store},
-  React.createElement(RegistrationPage, null, null)
-);
 
-module.exports = () => 
-  renderPage(provider, {
+module.exports = function () {
+  const store = configureStore(reducer, {flash: null});
+  const provider = React.createElement(Provider, {store},
+    React.createElement(RegistrationPage, null, null)
+  );
+  return renderPage(provider, {
     title: 'Register - McIlroy',
     stylesheets,
     state: store.getState(),
     bundles: ['register']
   });
-
+}

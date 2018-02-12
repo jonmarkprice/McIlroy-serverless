@@ -3,7 +3,6 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 
 // Local dependencies
-const cookieHome = require("./pages/home");
 const { createSession,
         getSession,
         endSession } = require("./database/session");
@@ -15,11 +14,12 @@ const loginPage = require("./pages/login");
 const mainPage  = require("./pages/app");
 const registrationPage = require("./pages/register");
 
+// Setup
 const router = express.Router();
 router.use("/api", api);
 
 const app = express();
-app.use(cookieParser()); // will this affect the router?
+app.use(cookieParser());
 
 app.use('/sessions', router);
 
@@ -30,37 +30,20 @@ function loggedOn(cookies) {
 
 // Routes
 router.get('/', (req, res) => {
-  if (req.cookies.username && req.cookies.session) {
+  if (req.cookies.session) {
     // Check the database for the session id.
-    getSession(req.cookies.session) // TODO: try a 'fake' one.
-    // TODO return user id
-    // TODO: what does this return?
+    getSession(req.cookies.session)
     .then(result => {
-      // TODO: we probably need to do something similar to before
-      // where we append (async) a username to the result.
       const username = result.Item.username; 
-      console.log(result.Item);
-      console.log("Username: ", username);
-
+      // console.log(result.Item);
+      // console.log("Username: ", username);
       return new Promise(function (resolve, reject) {
         getUserPrograms(username)
-        .then(programs => {
-          console.log('GOT USER PROGRAMS:');
-          console.log(programs);
-          return programs;
-        })
         .then(programs => resolve({username, programs: programs.Items}))
         .catch(reject);
       });
     })
     .then(function ({username, programs}) {
-      // TODO: use programs 
-      // TODO: get username!
-      // Will need to dispatch actions somewhere...
-      console.log('username: ', username);
-      console.log('programs');
-      console.log(programs);
-
       res.send(mainPage(username, programs));
     })
     .catch(function (err) {
@@ -116,12 +99,11 @@ router.get('/logout', (req, res) => {
   // Mb. check cookies set?
   endSession(req.cookies.session)
   .then(data => {
-    res.clearCookie("username", {path: "/dev/"});
     res.clearCookie("session", {path: "/dev/"});
     res.redirect('login');
   })
   .catch(err => {
-    res.write("<h2>ERROR logging out</h2>");
+    res.write("<h2>Error logging out</h2>");
     res.send("<pre>" + JSON.stringify(err) + "</pre>");
   });
 });
@@ -129,7 +111,7 @@ router.get('/logout', (req, res) => {
 // handle 404 more elegantly
 // TODO: may only want to do for GET
 router.use(function (req, res, next) {
-  res.send("<p>These aren't the droids your looking for.</p>");
+  res.send("<p>These aren't the droids you're looking for.</p>");
 });
 
 ////////////////////////////////////////////////////////////////

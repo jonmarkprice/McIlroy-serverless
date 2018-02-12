@@ -18,17 +18,14 @@ function handleLogIn(email, password) {
     .then(res => res.json())
     .then(
       body => {
-        // TEMP XXX // const body = JSON.parse(text);
-
         console.log(body);
         console.log("Setting cookies");
         // Paths and other options need to be the same as
         // cookies on the server, or log-out will fail.
-        document.cookie=`username=${body.username};path=/dev/`;
         document.cookie=`session=${body.session};path=/dev/`;
         
         console.log('Redirecting...');
-        window.location.href = "/dev/sessions/home";
+        window.location.href = "/dev/sessions/";
       },
       error => {
         console.error(error);
