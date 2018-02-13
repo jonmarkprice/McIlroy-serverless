@@ -3,14 +3,15 @@ const { getAuthToken
 const { createOpts } = require('../../../client/helpers/misc');
 const { removeProgram } = require('../saved');
 
-const deleteProgram = (userId, id, name) => dispatch => {
+const deleteProgram = (userId, id, name, stage) => dispatch => {
   const body = {
     UserId: getUser().username,
     ProgramName: name,
   };
+  const path = '/' + stage + '/programs/delete';
 
   getAuthToken()
-  .then(tok => fetch('programs/delete', createOpts(body, tok)))
+  .then(tok => fetch(path, createOpts(body, tok)))
   .then(res => res.json())
   .then( // Two parameter version handles both success & failure.
     parsed => {

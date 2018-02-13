@@ -2,7 +2,8 @@ const { getAuthToken
         , getUser } = require('../../../client/helpers/cognito');
 const { createOpts } = require('../../../client/helpers/misc');
 
-function updateProgramOnServer(userId, id, oldName, newName, newProgram) {
+function updateProgramOnServer(userId, id, oldName, newName, newProgram,
+                               stage) {
   return function (dispatch) {
     const username = getUser().username;
     const old = {
@@ -14,15 +15,17 @@ function updateProgramOnServer(userId, id, oldName, newName, newProgram) {
       ProgramName: newName,
       ProgramJSON: newProgram
     };
+    const deletePath = `/${stage}/programs/delete`;
+    const savePath = `/${stage}/programs/save`;
 
     getAuthToken()
     .then(tok => {
       dispatch({type: 'SET_FLASH', message: 'Updating program...'});
-      return fetch('programs/delete', createOpts(old, tok))
+      return fetch(deletePath, createOpts(old, tok))
       .then(res => res.json())
       .then(parsed => {
         console.log('Delete response: %s', parsed.message);
-        return fetch('programs/save', createOpts(updated, tok));
+        return fetch(savePath, createOpts(updated, tok));
       });
     })
     .then(res => res.json())

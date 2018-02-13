@@ -21,13 +21,14 @@ const mapStateToProps = state => ({
 , message : state.edit.message
 , programs: state.saved.programs
 , username: state.user.name
+, stage   : state.env.stage
 });
 
 const mapDispatchToProps = dispatch => ({
   done: () => {
     dispatch(unsetEditing());
   },
-  edit: (username, id, oldName, newName, newProgram) => {
+  edit: (username, id, oldName, newName, newProgram, stage) => {
     dbg('-- DISPATCHING actions --');
     dbg(`Renaming id: ${id}`);
     dbg('Dispatching save with new program: %o', newProgram);
@@ -36,7 +37,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(unsetEditing());
 
     // dispatch async action to server // id optional
-    dispatch(updateProgramOnServer(username, id, oldName, newName, newProgram));
+    dispatch(updateProgramOnServer(username, id, oldName, newName, 
+             newProgram, stage));
   },
   clear: () => {
     dispatch(clearOverlayProgram());
@@ -58,19 +60,21 @@ class SavedComponent extends React.Component {
   nameUpdate() {
     // XXX: If I update this.props.program, will it the name?
     // May have to go back to onChange and using buffers/actions
-    const {username, edit, id, name, program} = this.props;
+    const {username, edit, id, name, program, stage} = this.props;
     dbg("-- FORM SUMBITTED --");
     const newName = this.nameField.value;
     dbg(`new name: ${newName}`);
 
     if (name === newName) {
-      edit(username, id, name, newName, program);
+      // Since we *don't* need to change the sort key (name) here,
+      // we could use an update call instead of deleting & resaving...
+      edit(username, id, name, newName, program, stage);
     } else {
       dbg('Running namecheck');
       // Check validity of name, if changed.
       const nameCheck = checkName(newName, this.props.programs);
       if (nameCheck.ok) {
-        edit(username, id, name, newName, program);
+        edit(username, id, name, newName, program, stage);
       } else {
        this.props.displayMessage(nameCheck.reason);
       }
