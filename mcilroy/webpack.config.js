@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    app: './client/pages/app.js'
+    app: './client/pages/app.js',
     login: './client/pages/login.js',
     register: './client/pages/register.js',
   },
