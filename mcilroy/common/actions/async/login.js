@@ -2,6 +2,7 @@ const ACI = require('amazon-cognito-identity-js');
 const { createCognitoUser,
         getAuthToken  } = require('../../cognito');
 const { toUsername } = require('../../misc');
+const dbg = require("../../dbgconf")("async-actions:login");
 
 // async action
 function handleLogIn(email, password) {
@@ -18,13 +19,13 @@ function handleLogIn(email, password) {
     .then(res => res.json())
     .then(
       body => {
-        console.log(body);
-        console.log("Setting cookies");
+        dbg(body);
+        dbg("Setting cookies");
         // Paths and other options need to be the same as
         // cookies on the server, or log-out will fail.
         document.cookie=`session=${body.session};path=/dev/`;
         
-        console.log('Redirecting...');
+        dbg('Redirecting...');
         window.location.href = "/dev/sessions/";
       },
       error => {
@@ -47,7 +48,7 @@ function signIn(email, pw, onSuccess, onFailure) {
 }
 
 function storeCookie(email, token) {
-  console.log('Got token: ', token);
+  dbg('Got token: ', token);
   const opts = {
     method: 'POST',
     headers: new Headers({
@@ -56,7 +57,7 @@ function storeCookie(email, token) {
     mode: 'cors',
     body: JSON.stringify({username: toUsername(email), token})
   };
-  console.log('Saving session...');
+  dbg('Saving session...');
   return fetch('/dev/sessions/api/save', opts)
 }
 

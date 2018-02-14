@@ -2,6 +2,7 @@ const { getAuthToken
         , getUser } = require('../../cognito');
 const { createOpts } = require('../../misc');
 const { removeProgram } = require('../saved');
+const dbg = require("../../dbgconf")("async-actions:delete-program");
 
 const deleteProgram = (userId, id, name, stage) => dispatch => {
   const body = {
@@ -15,7 +16,7 @@ const deleteProgram = (userId, id, name, stage) => dispatch => {
   .then(res => res.json())
   .then( // Two parameter version handles both success & failure.
     parsed => {
-      console.log('Response: %s', parsed.message);
+      dbg('Response: %s', parsed.message);
       dispatch(removeProgram(id)); 
     },
     err => {

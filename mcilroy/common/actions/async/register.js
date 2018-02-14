@@ -1,6 +1,7 @@
 const ACI = require('amazon-cognito-identity-js');
 const { poolData } = require('../../cognito');
 const { toUsername } = require('../../misc');
+const dbg = require("../../dbgconf")("async-actions:register");
 
 function handleRegistration(email, pw, conf) {
   return function (dispatch) {
@@ -16,8 +17,8 @@ function handleRegistration(email, pw, conf) {
       }
     })
     .then(
-      function (res) { // val ignored
-        console.log('Logged in ' + res.user.getUsername());
+      function () { // val ignored
+        dbg('Logged in ' + res.user.getUsername());
         window.location.href = '.';
       },
       function (err) {

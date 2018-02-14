@@ -8,6 +8,7 @@ const Interpretter = require('../../lib/containers/Interpretter'); // or common
 const { pushInput } = require('../../common/actions/input');
 const { login } = require('../../common/actions/user');
 const { addProgram } = require("../../common/actions/saved");
+const dbg = require("debug")("server-pages:app");
 
 const stylesheets = ['common', 'banner', 'index', 'flash'];
 const { STAGE } = process.env;
@@ -39,11 +40,11 @@ module.exports = function (username, programs) {
 
   store.dispatch(login(username));
 
-  console.log("PROGRAMS: ")
-  console.log(programs)
+  dbg("PROGRAMS: ")
+  dbg(programs)
 
   programs.forEach(function (item) {
-    console.log('- %s', item);
+    dbg('- %s', item);
     store.dispatch(addProgram(item.ProgramName, item.Expansion));
   });
 

@@ -1,7 +1,7 @@
 const { getAuthToken
         , getUser } = require('../../cognito');
 const { createOpts } = require('../../misc');
-// const { addProgram } = require('../saved');
+const dbg = require("../../dbgconf")("async-actions:save-program"); 
 
 const saveProgram = (userId, name, expansion, stage) => dispatch => {
   const body = {
@@ -18,7 +18,7 @@ const saveProgram = (userId, name, expansion, stage) => dispatch => {
   .then(res => res.json())
   .then( // Two parameter version handles both success & failure.
     parsed => {
-      console.log('Response: %s', parsed.message); 
+      dbg('Response: %s', parsed.message); 
       dispatch({type: 'CLEAR_FLASH'});
     },
     err => {

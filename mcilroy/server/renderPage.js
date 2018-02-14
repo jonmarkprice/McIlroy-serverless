@@ -1,7 +1,6 @@
 const { renderToString } = require('react-dom/server');
-const dbg = console.log;
 const PropTypes = require('prop-types');
-// const dbg = require('debug')('routes:helpers');
+const dbg = require('debug')('routes:render-page');
 
 const stringify = s => JSON.stringify(s).replace(/</g, '\\u003c');
 
@@ -38,8 +37,8 @@ function renderPage(element, opts) {
       </script>`
     : '';
 
-  console.log("INITIAL STATE:");
-  console.log(stringify(opts.state));
+  dbg("INITIAL STATE:");
+  dbg(stringify(opts.state));
 
   return `<!DOCTYPE html>
   <html>

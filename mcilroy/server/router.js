@@ -1,6 +1,7 @@
 // External dependencies
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const dbg = require("debug")("router");
 
 // Local dependencies
 const { createSession,
@@ -35,8 +36,8 @@ router.get('/', (req, res) => {
     getSession(req.cookies.session)
     .then(result => {
       const username = result.Item.username; 
-      // console.log(result.Item);
-      // console.log("Username: ", username);
+      // dbg(result.Item);
+      // dbg("Username: ", username);
       return new Promise(function (resolve, reject) {
         getUserPrograms(username)
         .then(programs => resolve({username, programs: programs.Items}))
