@@ -1,6 +1,6 @@
 const ACI = require('amazon-cognito-identity-js');
-const { poolData } = require('../../../client/helpers/cognito');
-const { toUsername } = require('../../../client/helpers/misc');
+const { poolData } = require('../../cognito');
+const { toUsername } = require('../../misc');
 
 function handleRegistration(email, pw, conf) {
   return function (dispatch) {

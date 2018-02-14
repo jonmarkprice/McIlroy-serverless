@@ -1,6 +1,6 @@
 const { getAuthToken
-        , getUser } = require('../../../client/helpers/cognito');
-const { createOpts } = require('../../../client/helpers/misc');
+        , getUser } = require('../../cognito');
+const { createOpts } = require('../../misc');
 
 function updateProgramOnServer(userId, id, oldName, newName, newProgram,
                                stage) {

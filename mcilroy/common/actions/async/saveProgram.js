@@ -1,6 +1,6 @@
 const { getAuthToken
-        , getUser } = require('../../../client/helpers/cognito');
-const { createOpts } = require('../../../client/helpers/misc');
+        , getUser } = require('../../cognito');
+const { createOpts } = require('../../misc');
 // const { addProgram } = require('../saved');
 
 const saveProgram = (userId, name, expansion, stage) => dispatch => {

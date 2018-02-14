@@ -1,4 +1,4 @@
-const { getUser } = require('../../../client/helpers/cognito');
+const { getUser } = require('../../cognito');
 
 // async action
 module.exports = function() {

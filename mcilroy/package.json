@@ -4,15 +4,14 @@
   "description": "",
   "main": "handler.js",
   "scripts": {
+    "clean": "rimraf lib/* dist/*",
     "prebuild": "npm run clean -s",
-    "build": "babel -d lib common client -s",
+    "build": "babel -d lib common -s",
     "bundle": "webpack",
     "prestart": "npm run build && npm run bundle",
     "start": "node tests/manual/server.js",
-    "clean": "rimraf lib/* dist/*",
     "sync:bundles": "aws s3 sync dist s3://mcilroy/scripts",
-    "deploy:s3": "npm run build && npm run bundle && npm run sync:bundles",
-    "deploy:vue": "aws s3 cp vue/home.js s3://mcilroy/scripts/home.js"
+    "deploy:s3": "npm run build && npm run bundle && npm run sync:bundles"
   },
   "keywords": [],
   "author": "",
