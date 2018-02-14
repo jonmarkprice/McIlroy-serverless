@@ -29,30 +29,6 @@ provider:
     S3_URL: ${file(aws.yml):s3_url}
     STAGE: dev 
 functions:
-  login:
-    handler: handler.login
-    events:
-      - http:
-          path: login
-          method: get
-  register:
-    handler: handler.register
-    events:
-      - http:
-          path: register
-          method: get
-  api:
-    handler: handler.api
-    events:
-      - http:
-          path: api
-          method: get
-  app:
-    handler: handler.app
-    events:
-      - http:
-          path: app
-          method: get
   saveProgram:
     handler: handler.saveProgram
     events:
@@ -77,16 +53,6 @@ functions:
           method: POST
           authorizer:
             arn: ${file(aws.yml):userpool_arn}
-  pathTest:
-    handler: handler.pathTest
-    events:
-      - http:
-          path: test/paths/{foo}
-          method: GET
-          request:
-            parameters:
-              paths:
-                foo: false
   sessions:
     handler: handler.sessions
     events:
@@ -98,40 +64,6 @@ functions:
           method: GET
       - http:
           path: sessions/api/{any+}
-          method: POST
-  users:
-    handler: handler.users
-    events:
-      - http:
-          path: users/{route}
-          method: GET
-          request:
-            parameters:
-              paths:
-                route: true
-  addSession:
-    handler: handler.addSession
-    events:
-      - http:
-          path: session/add
-          method: GET
-  cookieHome:
-    handler: handler.cookieHome
-    events:
-      - http:
-          path: cookie/home
-          method: GET
-  cookieProfile:
-    handler: handler.cookieProfile
-    events:
-      - http:
-          path: cookie/profile
-          method: GET
-  storeCookie:
-    handler: handler.storeCookie
-    events:
-      - http:
-          path: cookie/api/store
           method: POST
 
 resources:

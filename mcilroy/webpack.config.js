@@ -3,10 +3,9 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
+    app: './client/pages/app.js'
     login: './client/pages/login.js',
     register: './client/pages/register.js',
-    api: './client/pages/api.js',
-    app: './client/pages/app.js'
   },
   module: {
     loaders: [
@@ -18,10 +17,6 @@ module.exports = {
         ],
         loader: 'babel-loader',
         test: /\.js$/
-      },
-      {
-        loader: 'json-loader',
-        test: /\.json$/
       }
     ]
   },
@@ -31,20 +26,16 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
+      name: 'app',
+      chunks: ['app'],
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
       name: 'login',
       chunks: ['login'],
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'register',
       chunks: ['register']
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'api',
-      chunks: ['api']
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'app',
-      chunks: ['app']
-    })      
+    })
   ]
 };

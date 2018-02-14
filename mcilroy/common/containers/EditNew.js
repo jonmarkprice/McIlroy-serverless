@@ -23,12 +23,6 @@ const mapDispatchToProps = dispatch => ({
   save: (username, name, program, stage) => {
     dbg('username %s', username)
     dispatch(saveProgram(username, name, program, stage));
-    // Currently dealing with error in saveProgram itself 
-    /*
-    .then(
-      v => { dbg('-- RECIEVED --'); },
-      e => { throw Error(e); }
-    );*/
   },
   addToUI: (name, program) => {
     dispatch(addProgram(name, program));
