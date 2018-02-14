@@ -27,7 +27,8 @@ provider:
           - Arn
   environment:
     S3_URL: ${file(aws.yml):s3_url}
-    STAGE: dev 
+    STAGE: dev
+    NODE_ENV: production 
 functions:
   saveProgram:
     handler: handler.saveProgram
